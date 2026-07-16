@@ -1,3 +1,4 @@
+import { t } from '../i18n';
 import { api } from "../api";
 import { h, icon, clear, qs } from "../dom";
 import { fmtDateTime, ouLabel, timeAgo } from "../format";
@@ -36,10 +37,10 @@ async function render() {
   const cards = qs<HTMLElement>("#stat-cards");
   clear(cards);
   cards.append(
-    statCard("Total users", data.stats.total_users, `${data.stats.enabled_users} enabled`),
-    statCard("Created · last 7 days", data.stats.created_last_7_days, "via onboarding & sync"),
-    statCard("Pending onboarding", data.pending_jobs, "queued or running jobs"),
-    statCard("Errors · last 24 h", data.errors_24h, "from the audit trail"),
+    statCard(t("dashboard.total_users"), data.stats.total_users, `${data.stats.enabled_users} ${t("dashboard.enabled")}`),
+    statCard(t("dashboard.created_last_7_days"), data.stats.created_last_7_days, "via onboarding & sync"),
+    statCard(t("dashboard.pending_onboarding"), data.pending_jobs, "queued or running jobs"),
+    statCard(t("dashboard.errors_last_24h"), data.errors_24h, "from the audit trail"),
   );
 
   // Recent users table
@@ -95,7 +96,7 @@ async function render() {
   clear(feed);
   if (!data.recent_activity.length) {
     feed.append(h("p", { class: "px-4 py-6 text-center text-sm text-slate-500" },
-      "No activity yet. Create your first user to see the audit trail here."));
+      t("dashboard.no_activity")));
   }
   for (const entry of data.recent_activity) {
     feed.append(
@@ -121,7 +122,7 @@ async function render() {
   clear(jobList);
   if (!data.recent_jobs.length) {
     jobList.append(h("p", { class: "px-4 py-6 text-center text-sm text-slate-500" },
-      "No onboarding jobs yet."));
+      t("dashboard.no_jobs")));
   }
   for (const job of data.recent_jobs as Job[]) {
     jobList.append(
