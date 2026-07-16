@@ -1,6 +1,6 @@
 import { api, ApiError } from "../api";
 import { openPreviewModal, openProgressModal } from "../components/modal";
-import { h, icon, clear, qs } from "../dom";
+import { h, clear, issueBanner, qs } from "../dom";
 import { initials, ouLabel } from "../format";
 import { requireSession } from "../session";
 import { toast } from "../toast";
@@ -189,16 +189,7 @@ function showIssues(issues: ValidationIssue[]) {
     form.issues.replaceChildren();
     form.issues.classList.toggle("hidden", own.length === 0);
     for (const issue of own) {
-      form.issues.append(
-        h("div", {
-          class: `flex items-start gap-2 rounded-lg px-3 py-2 text-sm ${
-            issue.severity === "error"
-              ? "bg-rose-50 text-rose-800 dark:bg-rose-950/40 dark:text-rose-300"
-              : "bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300"}`,
-        },
-        icon("warning", "mt-0.5 size-3.5"),
-        h("span", {}, h("strong", { class: "font-semibold" }, `${issue.field}: `), issue.message)),
-      );
+      form.issues.append(issueBanner(issue.severity, `${issue.field}: `, issue.message));
     }
   });
 }

@@ -24,8 +24,15 @@ function container(): HTMLElement {
   return el;
 }
 
+const KIND_ICONS = {
+  success: "check",
+  error: "x",
+  warning: "warning",
+  info: "info",
+} as const;
+
 export function toast(kind: ToastKind, message: string, timeout = 4500): void {
-  const iconName = kind === "success" ? "check" : kind === "error" ? "x" : "warning";
+  const iconName = KIND_ICONS[kind];
   const el = h(
     "div",
     {

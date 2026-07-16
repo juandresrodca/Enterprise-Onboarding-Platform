@@ -35,6 +35,24 @@ export function clear(el: HTMLElement): void {
   el.replaceChildren();
 }
 
+/** Inline validation-issue banner shared by the create, bulk and clone flows. */
+export function issueBanner(
+  severity: "error" | "warning",
+  prefix: string,
+  message: string,
+): HTMLElement {
+  const tone =
+    severity === "error"
+      ? "bg-rose-50 text-rose-800 dark:bg-rose-950/40 dark:text-rose-300"
+      : "bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300";
+  return h(
+    "div",
+    { class: `flex items-start gap-2 rounded-lg px-3 py-2 text-sm ${tone}` },
+    icon("warning", "mt-0.5 size-3.5"),
+    h("span", {}, h("strong", { class: "font-semibold" }, prefix), message),
+  );
+}
+
 export function qs<T extends HTMLElement>(selector: string, root: ParentNode = document): T {
   const el = root.querySelector<T>(selector);
   if (!el) throw new Error(`Element not found: ${selector}`);
@@ -52,6 +70,7 @@ export function icon(name: keyof typeof ICONS, cls = "size-4"): HTMLElement {
 export const ICONS = {
   check: `<path d="M4 12.5l5 5L20 6.5"/>`,
   x: `<path d="M6 6l12 12M18 6L6 18"/>`,
+  info: `<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.8v.2"/>`,
   warning: `<path d="M12 4L2.5 20h19L12 4z"/><path d="M12 10v5"/><path d="M12 17.8v.2"/>`,
   chevronDown: `<path d="M6 9l6 6 6-6"/>`,
   chevronRight: `<path d="M9 6l6 6-6 6"/>`,

@@ -1,7 +1,7 @@
 /** Dynamic per-user onboarding form card (used by Create and Clone pages). */
 
 import { api } from "../api";
-import { h, icon, qs } from "../dom";
+import { h, icon, issueBanner, qs } from "../dom";
 import { initials, ouLabel } from "../format";
 import type {
   LicenseInfo, NewUserSpec, UserSummary, ValidationIssue,
@@ -442,18 +442,7 @@ export function createUserForm(
     issuesArea.classList.remove("hidden");
     if (errors && body.hidden) header.click();
     for (const issue of issues) {
-      issuesArea.append(
-        h(
-          "div",
-          { class: `flex items-start gap-2 rounded-lg px-3 py-2 text-sm ${
-            issue.severity === "error"
-              ? "bg-rose-50 text-rose-800 dark:bg-rose-950/40 dark:text-rose-300"
-              : "bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300"
-          }` },
-          icon("warning", "mt-0.5 size-3.5"),
-          h("span", {}, h("strong", { class: "font-semibold" }, `${issue.field}: `), issue.message),
-        ),
-      );
+      issuesArea.append(issueBanner(issue.severity, `${issue.field}: `, issue.message));
     }
   }
 

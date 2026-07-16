@@ -44,8 +44,12 @@ export function pickOU(current?: string | null): Promise<string | null> {
       children.hidden = !expanded;
 
       const chevron = node.children.length
-        ? icon(expanded ? "chevronDown" : "chevronRight", "size-3.5")
+        ? icon("chevronDown", "size-3.5")
         : h("span", { class: "inline-block w-3.5" });
+      if (node.children.length) {
+        chevron.style.transition = "transform 150ms ease-out";
+        if (!expanded) chevron.style.transform = "rotate(-90deg)";
+      }
 
       const row = h(
         "button",
@@ -76,12 +80,7 @@ export function pickOU(current?: string | null): Promise<string | null> {
               event.stopPropagation();
               expanded = !expanded;
               children.hidden = !expanded;
-              chevron.replaceWith(
-                (() => {
-                  const c = icon(expanded ? "chevronDown" : "chevronRight", "size-3.5");
-                  return c;
-                })(),
-              );
+              chevron.style.transform = expanded ? "" : "rotate(-90deg)";
             },
           },
           chevron,
