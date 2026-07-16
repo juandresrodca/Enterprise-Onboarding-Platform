@@ -1,0 +1,123 @@
+---
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Sign in · Identity Onboarding</title>
+    <script is:inline>
+      (() => {
+        const stored = localStorage.getItem("eio-theme");
+        const dark = stored
+          ? stored === "dark"
+          : matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark", dark);
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="flex min-h-screen items-center justify-center px-4">
+      <div class="w-full max-w-sm">
+        <div class="mb-6 flex items-center justify-center gap-3">
+          <span
+            class="flex size-10 items-center justify-center rounded-xl bg-accent-700 font-mono text-base
+              font-bold text-white dark:bg-accent-600">ID</span>
+          <span class="leading-tight">
+            <span class="block text-sm font-semibold">Enterprise Identity Onboarding</span>
+            <span class="block text-xs text-slate-500 dark:text-slate-400">Northwind Dynamics</span>
+          </span>
+        </div>
+
+        <form id="login-form" class="card anim-in space-y-4 px-6 py-6" novalidate>
+          <div>
+            <label class="label" for="username">Username</label>
+            <input id="username" name="username" class="input" autocomplete="username" required />
+          </div>
+          <div>
+            <label class="label" for="password">Password</label>
+            <input id="password" name="password" type="password" class="input"
+              autocomplete="current-password" required />
+          </div>
+          <p id="login-error" class="hidden rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-800
+            dark:bg-rose-950/40 dark:text-rose-300"></p>
+          <button id="login-submit" class="btn-primary w-full" type="submit">Sign in</button>
+
+          <button id="entra-btn" class="btn-secondary hidden w-full" type="button">
+            <svg class="size-4" viewBox="0 0 21 21" aria-hidden="true">
+              <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+              <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+              <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+              <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+            </svg>
+            Sign in with Microsoft
+          </button>
+        </form>
+
+        <div id="demo-accounts" class="card mt-4 hidden px-5 py-4">
+          <p class="mb-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
+            Demo accounts — password <code class="mono">Demo!Pass123</code>
+          </p>
+          <div class="grid grid-cols-2 gap-1.5" id="demo-chips"></div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      import { api, ApiError, appUrl, setCsrfToken } from "../lib/api";
+      import type { SessionInfo } from "../lib/types";
+
+      const form = document.getElementById("login-form") as HTMLFormElement;
+      const errorBox = document.getElementById("login-error")!;
+      const submit = document.getElementById("login-submit") as HTMLButtonElement;
+
+      const health = await api.get<{ demo_mode: boolean }>("/api/health");
+      if (health.demo_mode) {
+        document.getElementById("demo-accounts")!.classList.remove("hidden");
+        const chips = document.getElementById("demo-chips")!;
+        for (const account of [
+          { u: "gadmin", label: "Global Admin" },
+          { u: "admin", label: "Administrator" },
+          { u: "hr", label: "HR" },
+          { u: "helpdesk", label: "Helpdesk" },
+        ]) {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn-secondary btn-sm justify-start";
+          btn.innerHTML = `<span class="mono">${account.u}</span><span class="text-slate-400">· ${account.label}</span>`;
+          btn.addEventListener("click", () => {
+            (document.getElementById("username") as HTMLInputElement).value = account.u;
+            (document.getElementById("password") as HTMLInputElement).value = "Demo!Pass123";
+            form.requestSubmit();
+          });
+          chips.append(btn);
+        }
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        errorBox.classList.add("hidden");
+        submit.disabled = true;
+        submit.textContent = "Signing in…";
+        try {
+          const data = new FormData(form);
+          const session = await api.postNoRedirect<SessionInfo>("/api/auth/login", {
+            username: data.get("username"),
+            password: data.get("password"),
+          });
+          setCsrfToken(session.csrf_token);
+          location.href = appUrl("/");
+        } catch (error) {
+          errorBox.textContent =
+            error instanceof ApiError ? error.message : "Sign-in failed. Try again.";
+          errorBox.classList.remove("hidden");
+          submit.disabled = false;
+          submit.textContent = "Sign in";
+        }
+      });
+    </script>
+  </body>
+</html>

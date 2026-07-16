@@ -1,0 +1,30 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+---
+
+<AppLayout title="Create users" subtitle="Onboard one or many users with full directory, group and Microsoft 365 setup" active="create">
+  <section class="card mb-5 flex flex-wrap items-end gap-3 px-4 py-4">
+    <div>
+      <label class="label" for="user-count">How many users do you want to create?</label>
+      <input id="user-count" type="number" min="1" max="50" value="1" class="input w-32" />
+    </div>
+    <button id="generate-forms" class="btn-primary" type="button">Generate forms</button>
+    <p class="text-xs text-slate-400 dark:text-slate-500">Up to 50 per batch — use Bulk import for larger waves.</p>
+  </section>
+
+  <div id="forms-root" class="space-y-4"></div>
+
+  <div id="action-bar"
+    class="sticky bottom-4 z-30 mt-6 hidden flex-wrap items-center gap-3 rounded-xl border
+      border-slate-200 bg-white/95 px-4 py-3 shadow-lg shadow-slate-900/10 backdrop-blur
+      dark:border-slate-700 dark:bg-slate-900/95">
+    <span id="summary-badge" class="badge-muted">not validated</span>
+    <div class="flex-1"></div>
+    <button id="validate-btn" class="btn-secondary" type="button">Validate</button>
+    <button id="preview-btn" class="btn-primary" type="button" disabled>Preview &amp; execute</button>
+  </div>
+
+  <script>
+    import "../lib/pages/create";
+  </script>
+</AppLayout>

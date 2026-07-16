@@ -1,0 +1,33 @@
+# Demo/evaluation stack: frontend (nginx) + backend (FastAPI, demo mode).
+#   docker compose up --build     ->  http://localhost:8080
+# Production deployment guidance: docs/DEPLOYMENT.md
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    environment:
+      EIO_DEMO_MODE: "true"
+      EIO_ENVIRONMENT: demo
+      # Set a stable secret so sessions survive restarts:
+      # EIO_SECRET_KEY: ${EIO_SECRET_KEY}
+      EIO_CORS_ORIGINS: '["http://localhost:8080"]'
+    volumes:
+      - eio-data:/app/data
+      - eio-logs:/app/logs
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  eio-data:
+  eio-logs:

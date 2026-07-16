@@ -1,0 +1,19 @@
+{
+  "name": "eio-frontend",
+  "version": "1.0.0",
+  "description": "Enterprise Identity Onboarding - Astro frontend",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "astro": "^5.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}

@@ -1,0 +1,50 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+---
+
+<AppLayout title="Clone user" subtitle="Use an existing employee as the template: OU, groups, licenses and permissions carry over — identity never does" active="clone">
+  <section class="card mb-5 px-4 py-4">
+    <label class="label" for="source-search">Template user</label>
+    <div class="relative max-w-md">
+      <input id="source-search" class="input" placeholder="Search by name, username or department…"
+        autocomplete="off" />
+      <div id="source-results"
+        class="absolute inset-x-0 top-full z-20 mt-1 hidden max-h-72 overflow-y-auto rounded-lg border
+          border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900"></div>
+    </div>
+    <div id="source-card" class="mt-4 hidden"></div>
+  </section>
+
+  <div id="clone-config" class="hidden space-y-5">
+    <section class="card px-4 py-4">
+      <h2 class="mb-3 text-sm font-semibold">What should be copied?</h2>
+      <div id="clone-options" class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3"></div>
+      <p class="mt-3 text-[11px] text-slate-400 dark:text-slate-500">
+        Never copied: SID, GUID, password, username, email, employee ID, display name and personal data.
+      </p>
+    </section>
+
+    <section class="card px-4 py-4">
+      <div class="mb-3 flex flex-wrap items-end gap-3">
+        <div>
+          <label class="label" for="clone-count">New users from this template</label>
+          <input id="clone-count" type="number" min="1" max="20" value="1" class="input w-28" />
+        </div>
+        <button id="clone-generate" class="btn-secondary" type="button">Generate forms</button>
+      </div>
+      <div id="clone-forms" class="space-y-3"></div>
+    </section>
+
+    <div class="sticky bottom-4 z-30 flex flex-wrap items-center gap-3 rounded-xl border
+      border-slate-200 bg-white/95 px-4 py-3 shadow-lg shadow-slate-900/10 backdrop-blur
+      dark:border-slate-700 dark:bg-slate-900/95">
+      <span id="clone-badge" class="badge-muted">not previewed</span>
+      <div class="flex-1"></div>
+      <button id="clone-preview" class="btn-primary" type="button">Preview clone</button>
+    </div>
+  </div>
+
+  <script>
+    import "../lib/pages/clone";
+  </script>
+</AppLayout>

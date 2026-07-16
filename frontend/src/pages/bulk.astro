@@ -1,0 +1,39 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+---
+
+<AppLayout title="Bulk import" subtitle="Onboard a whole wave from CSV, Excel or JSON — validated before anything runs" active="bulk">
+  <section class="card mb-5 px-4 py-4">
+    <div class="flex flex-wrap items-center gap-3">
+      <label id="drop-zone" class="flex min-h-28 flex-1 cursor-pointer flex-col items-center
+        justify-center gap-1 rounded-xl border-2 border-dashed border-slate-300 px-4 py-6 text-center
+        transition-[border-color,background-color] duration-150 hover:border-accent-600
+        hover:bg-accent-50/40 dark:border-slate-700 dark:hover:border-accent-400 dark:hover:bg-accent-950/20">
+        <span class="text-sm font-medium">Drop a file here or click to browse</span>
+        <span class="text-xs text-slate-400">.csv · .xlsx · .json — up to 200 users, 5 MB</span>
+        <input id="file-input" type="file" accept=".csv,.xlsx,.json" class="sr-only" />
+      </label>
+      <div class="flex flex-col gap-2">
+        <a id="template-link" href="/api/users/template.csv" class="btn-secondary" download>Download CSV template</a>
+        <p class="max-w-52 text-[11px] text-slate-400 dark:text-slate-500">
+          Headers from HR exports (Workday, SAP HR…) are matched automatically.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div id="bulk-result" class="hidden space-y-4">
+    <div class="flex flex-wrap items-center gap-3">
+      <h2 class="text-sm font-semibold" id="bulk-file-label"></h2>
+      <span id="bulk-badge" class="badge-muted"></span>
+      <div class="flex-1"></div>
+      <button id="bulk-execute" class="btn-primary" type="button" disabled>Preview &amp; execute</button>
+    </div>
+    <div id="bulk-issues" class="space-y-1"></div>
+    <div class="card overflow-x-auto" id="bulk-table"></div>
+  </div>
+
+  <script>
+    import "../lib/pages/bulk";
+  </script>
+</AppLayout>

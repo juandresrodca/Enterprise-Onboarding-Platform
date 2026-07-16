@@ -1,0 +1,32 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+---
+
+<AppLayout title="Settings" subtitle="Session, platform configuration and password policy" active="settings">
+  <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
+    <section class="card px-5 py-4">
+      <h2 class="mb-3 text-sm font-semibold">Your session</h2>
+      <dl id="session-info" class="space-y-2 text-sm"></dl>
+    </section>
+
+    <section class="card px-5 py-4">
+      <h2 class="mb-3 text-sm font-semibold">Platform</h2>
+      <dl id="platform-info" class="space-y-2 text-sm"></dl>
+    </section>
+
+    <section class="card px-5 py-4 xl:col-span-2">
+      <div class="mb-3 flex items-center justify-between">
+        <h2 class="text-sm font-semibold">Password policy</h2>
+        <span id="policy-hint" class="text-xs text-slate-400"></span>
+      </div>
+      <form id="policy-form" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"></form>
+      <div class="mt-4 flex justify-end">
+        <button id="policy-save" class="btn-primary hidden" type="button">Save policy</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import "../lib/pages/settings";
+  </script>
+</AppLayout>

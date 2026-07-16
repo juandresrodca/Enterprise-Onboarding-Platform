@@ -1,0 +1,66 @@
+---
+import "../styles/global.css";
+import Sidebar from "../components/Sidebar.astro";
+import Header from "../components/Header.astro";
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  active: string;
+}
+const { title, subtitle, active } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{title} · Identity Onboarding</title>
+    <script is:inline>
+      // Apply the theme before first paint to avoid a flash.
+      (() => {
+        const stored = localStorage.getItem("eio-theme");
+        const dark = stored
+          ? stored === "dark"
+          : matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark", dark);
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="flex min-h-screen flex-col md:flex-row">
+      <Sidebar active={active} />
+      <main class="min-w-0 flex-1 px-4 py-5 md:px-8 md:py-6">
+        <div class="mx-auto max-w-6xl">
+          <Header title={title} subtitle={subtitle} />
+          <slot />
+        </div>
+      </main>
+    </div>
+
+    <script>
+      import { requireSession, logout, can } from "../lib/session";
+      import { toggleTheme } from "../lib/theme";
+      import { initials } from "../lib/format";
+
+      document.getElementById("theme-toggle")?.addEventListener("click", () => toggleTheme());
+      document.getElementById("logout-btn")?.addEventListener("click", () => void logout());
+
+      const session = await requireSession();
+      document.getElementById("user-name")!.textContent = session.display_name;
+      document.getElementById("user-role")!.textContent = session.role_label;
+      document.getElementById("user-avatar")!.textContent = initials(session.display_name);
+      const mode = document.getElementById("sidebar-mode");
+      if (mode) mode.textContent = session.demo_mode ? "DEMO MODE · Northwind directory" : "Production";
+
+      // Hide navigation the current role cannot use.
+      document.querySelectorAll<HTMLElement>("[data-perm]").forEach((el) => {
+        if (!can(session, el.dataset.perm!)) el.style.display = "none";
+      });
+
+      document.dispatchEvent(new CustomEvent("eio:session", { detail: session }));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: the theme toggle stamps .dark on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, ui-sans-serif,
+    -apple-system, sans-serif;
+  --font-mono: "Cascadia Code", Consolas, ui-monospace, "SF Mono", monospace;
+
+  /* Single accent for the whole app (palette lock). */
+  --color-accent-50: #f0fdfa;
+  --color-accent-100: #ccfbf1;
+  --color-accent-200: #99f6e4;
+  --color-accent-300: #5eead4;
+  --color-accent-400: #2dd4bf;
+  --color-accent-500: #14b8a6;
+  --color-accent-600: #0d9488;
+  --color-accent-700: #0f766e;
+  --color-accent-800: #115e59;
+  --color-accent-900: #134e4a;
+  --color-accent-950: #042f2e;
+}
+
+/* ---------- base ------------------------------------------------------------ */
+
+html {
+  @apply antialiased;
+}
+
+body {
+  @apply bg-slate-100 font-sans text-slate-900 dark:bg-slate-950 dark:text-slate-100;
+}
+
+/* Accessibility non-negotiables */
+:focus-visible {
+  outline: 2px solid var(--color-accent-600);
+  outline-offset: 2px;
+}
+.dark :focus-visible {
+  outline-color: var(--color-accent-400);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  @apply bg-accent-200 text-accent-950;
+}
+
+/* ---------- components -------------------------------------------------------- */
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-slate-200 bg-white shadow-sm shadow-slate-200/60
+      dark:border-slate-800 dark:bg-slate-900 dark:shadow-none;
+  }
+
+  /* Buttons: shared skeleton + color variants. */
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost,
+  .btn-danger {
+    @apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg
+      px-3.5 py-2 text-sm font-medium whitespace-nowrap select-none
+      transition-[background-color,border-color,color,box-shadow,transform]
+      duration-150 ease-out active:scale-[.97]
+      disabled:pointer-events-none disabled:opacity-45;
+  }
+  .btn-primary {
+    @apply bg-accent-700 text-white hover:bg-accent-800
+      dark:bg-accent-600 dark:hover:bg-accent-500;
+  }
+  .btn-secondary {
+    @apply border border-slate-300 bg-white text-slate-700 hover:bg-slate-50
+      dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800;
+  }
+  .btn-ghost {
+    @apply text-slate-600 hover:bg-slate-200/60
+      dark:text-slate-300 dark:hover:bg-slate-800;
+  }
+  .btn-danger {
+    @apply bg-rose-700 text-white hover:bg-rose-800;
+  }
+  .btn-sm {
+    @apply px-2.5 py-1.5 text-xs;
+  }
+
+  .input {
+    @apply block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm
+      text-slate-900 placeholder:text-slate-400
+      transition-[border-color,box-shadow] duration-150
+      focus:border-accent-600 focus:ring-2 focus:ring-accent-600/25 focus:outline-none
+      disabled:bg-slate-100 disabled:text-slate-500
+      dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100
+      dark:placeholder:text-slate-500 dark:focus:border-accent-400
+      dark:disabled:bg-slate-900;
+  }
+  .label {
+    @apply mb-1 block text-xs font-medium text-slate-600 dark:text-slate-400;
+  }
+
+  /* Badges: shared skeleton + tone variants. */
+  .badge,
+  .badge-ok,
+  .badge-warn,
+  .badge-err,
+  .badge-muted {
+    @apply inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px]
+      font-medium;
+  }
+  .badge-ok {
+    @apply bg-accent-100 text-accent-900 dark:bg-accent-950 dark:text-accent-300;
+  }
+  .badge-warn {
+    @apply bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-300;
+  }
+  .badge-err {
+    @apply bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-300;
+  }
+  .badge-muted {
+    @apply bg-slate-200/70 text-slate-700 dark:bg-slate-800 dark:text-slate-300;
+  }
+
+  .table-base {
+    @apply w-full border-collapse text-sm;
+  }
+  .table-base thead th {
+    @apply border-b border-slate-200 px-3 py-2 text-left text-[11px] font-semibold
+      tracking-wide text-slate-500 uppercase dark:border-slate-800 dark:text-slate-400;
+  }
+  .table-base tbody td {
+    @apply border-b border-slate-100 px-3 py-2 align-middle dark:border-slate-800/60;
+  }
+  .table-base tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .mono {
+    @apply font-mono text-[13px];
+  }
+
+  .modal-backdrop {
+    @apply fixed inset-0 z-40 bg-slate-950/50 backdrop-blur-[2px];
+  }
+  .modal-panel {
+    @apply fixed inset-x-3 top-[6vh] z-50 mx-auto flex max-h-[86vh] w-auto max-w-3xl
+      flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl
+      shadow-slate-900/20 dark:border-slate-700 dark:bg-slate-900;
+  }
+
+  .nav-item {
+    @apply flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium
+      text-slate-600 transition-[background-color,color] duration-150
+      hover:bg-slate-200/60 hover:text-slate-900
+      dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100;
+  }
+  .nav-item[aria-current="page"] {
+    @apply bg-accent-700/10 text-accent-800 dark:bg-accent-400/10 dark:text-accent-300;
+  }
+}
+
+/* ---------- micro-animations (transform/opacity only) --------------------------- */
+
+@keyframes eio-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.anim-in {
+  animation: eio-fade-up 180ms ease-out both;
+}
+
+@keyframes eio-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+.skeleton {
+  @apply rounded-md bg-slate-200 dark:bg-slate-800;
+  animation: eio-pulse 1.4s ease-in-out infinite;
+}

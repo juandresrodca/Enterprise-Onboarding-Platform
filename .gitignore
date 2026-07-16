@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Node / Astro
+node_modules/
+frontend/dist/
+frontend/.astro/
+
+# Runtime state & secrets
+backend/.env
+backend/data/
+logs/
+*.sqlite3
+
+# OS
+.DS_Store
+Thumbs.db
+
+# graphify knowledge-graph cache
+graphify-out/

@@ -1,0 +1,55 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+---
+
+<AppLayout title="Dashboard" subtitle="Directory overview and recent onboarding activity" active="dashboard">
+  <div id="dash-root" class="space-y-6">
+    <div class="grid grid-cols-2 gap-3 lg:grid-cols-4" id="stat-cards">
+      {[1, 2, 3, 4].map(() => <div class="skeleton h-24" />)}
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-3">
+      <section class="card xl:col-span-2">
+        <h2 class="border-b border-slate-100 px-4 py-3 text-sm font-semibold dark:border-slate-800">
+          Recently created users
+        </h2>
+        <div id="recent-users" class="overflow-x-auto p-1">
+          <div class="skeleton m-3 h-40"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="border-b border-slate-100 px-4 py-3 text-sm font-semibold dark:border-slate-800">
+          License usage
+        </h2>
+        <div id="license-usage" class="space-y-3 px-4 py-4">
+          <div class="skeleton h-28"></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-3">
+      <section class="card xl:col-span-2">
+        <h2 class="border-b border-slate-100 px-4 py-3 text-sm font-semibold dark:border-slate-800">
+          Recent activity
+        </h2>
+        <div id="activity-feed" class="divide-y divide-slate-100 dark:divide-slate-800">
+          <div class="skeleton m-3 h-40"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="border-b border-slate-100 px-4 py-3 text-sm font-semibold dark:border-slate-800">
+          Onboarding jobs
+        </h2>
+        <div id="job-list" class="divide-y divide-slate-100 dark:divide-slate-800">
+          <div class="skeleton m-3 h-28"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    import "../lib/pages/dashboard";
+  </script>
+</AppLayout>

@@ -1,0 +1,52 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+---
+
+<AppLayout title="Audit logs" subtitle="Every action, actor and outcome — filter and export for compliance" active="logs">
+  <section class="card mb-5 flex flex-wrap items-end gap-3 px-4 py-4">
+    <div>
+      <label class="label" for="f-action">Action</label>
+      <select id="f-action" class="input w-44"><option value="">All actions</option></select>
+    </div>
+    <div>
+      <label class="label" for="f-status">Status</label>
+      <select id="f-status" class="input w-32">
+        <option value="">All</option>
+        <option value="success">success</option>
+        <option value="warning">warning</option>
+        <option value="error">error</option>
+      </select>
+    </div>
+    <div>
+      <label class="label" for="f-actor">Actor</label>
+      <input id="f-actor" class="input w-36" placeholder="username" />
+    </div>
+    <div>
+      <label class="label" for="f-target">Target</label>
+      <input id="f-target" class="input w-36" placeholder="user / job" />
+    </div>
+    <button id="f-apply" class="btn-secondary" type="button">Apply filters</button>
+    <div class="flex-1"></div>
+    <div id="export-group" class="hidden items-center gap-1.5">
+      <span class="text-xs text-slate-400">Export</span>
+      <a class="btn-secondary btn-sm" id="exp-csv" href="#" download>CSV</a>
+      <a class="btn-secondary btn-sm" id="exp-json" href="#" download>JSON</a>
+      <a class="btn-secondary btn-sm" id="exp-pdf" href="#" download>PDF</a>
+    </div>
+  </section>
+
+  <section class="card overflow-x-auto">
+    <div id="log-table"><div class="skeleton m-4 h-64"></div></div>
+    <div class="flex items-center justify-between border-t border-slate-100 px-4 py-2.5 dark:border-slate-800">
+      <span id="log-count" class="text-xs text-slate-500"></span>
+      <div class="flex gap-1.5">
+        <button id="page-prev" class="btn-secondary btn-sm" type="button" disabled>Previous</button>
+        <button id="page-next" class="btn-secondary btn-sm" type="button" disabled>Next</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import "../lib/pages/logs";
+  </script>
+</AppLayout>
