@@ -65,8 +65,14 @@ cd frontend
 npm install
 npm run dev                                           # http://localhost:4321
 ```
+> [!IMPORTANT]  
+> Is necessary for users who want to test the demo version in Chrome must enable third-party cookies on the site.
+> Use the issue if you want to contribute on this https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/1
 
-Or with Docker: `docker compose up --build` → http://localhost:8080
+
+
+https://github.com/user-attachments/assets/9fd2102b-c6e1-4bf6-a911-94c18cc95191
+
 
 **Demo accounts** (password `Demo!Pass123`):
 
