@@ -1,0 +1,30 @@
+{
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "create_users": "Create users",
+    "bulk_import": "Bulk import",
+    "clone_user": "Clone user",
+    "audit_logs": "Audit logs",
+    "settings": "Settings",
+    "identity_onboarding": "Identity Onboarding"
+  },
+  "dashboard": {
+    "total_users": "Total users",
+    "enabled": "enabled",
+    "created_last_7_days": "Created · last 7 days",
+    "pending_onboarding": "Pending onboarding",
+    "errors_last_24h": "Errors · last 24 h",
+    "no_activity": "No activity yet.",
+    "no_jobs": "No onboarding jobs yet."
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "appearance": "Appearance",
+    "language": "Language",
+    "notifications": "Notifications",
+    "save_changes": "Save changes",
+    "dark_mode": "Dark mode",
+    "light_mode": "Light mode"
+  }
+}

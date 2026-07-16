@@ -7,8 +7,9 @@ interface Props {
   title: string;
   subtitle?: string;
   active: string;
+  titleKey?: string;
 }
-const { title, subtitle, active } = Astro.props;
+const { title, subtitle, active, titleKey } = Astro.props;
 ---
 
 <!doctype html>
@@ -34,7 +35,7 @@ const { title, subtitle, active } = Astro.props;
       <Sidebar active={active} />
       <main class="min-w-0 flex-1 px-4 py-5 md:px-8 md:py-6">
         <div class="mx-auto max-w-6xl">
-          <Header title={title} subtitle={subtitle} />
+          <Header title={title} subtitle={subtitle} titleKey={titleKey} />
           <slot />
         </div>
       </main>
@@ -43,7 +44,11 @@ const { title, subtitle, active } = Astro.props;
     <script>
       import { requireSession, logout, can } from "../lib/session";
       import { toggleTheme } from "../lib/theme";
+      import { applyTranslations } from "../lib/i18n";
       import { initials } from "../lib/format";
+
+      // Astro renders English at build time; swap to the stored preference now.
+      applyTranslations();
 
       document.getElementById("theme-toggle")?.addEventListener("click", () => toggleTheme());
       document.getElementById("logout-btn")?.addEventListener("click", () => void logout());

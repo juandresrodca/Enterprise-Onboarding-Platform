@@ -9,17 +9,17 @@ const { active } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/+$/, "");
 
 const items = [
-  { href: "/", key: "dashboard", label: t('sidebar.dashboard'), perm: "dashboard:read",
+  { href: "/", key: "dashboard", i18n: "sidebar.dashboard", perm: "dashboard:read",
     icon: `<rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/>` },
-  { href: "/create", key: "create", label: t('sidebar.create_users'), perm: "users:create",
+  { href: "/create", key: "create", i18n: "sidebar.create_users", perm: "users:create",
     icon: `<circle cx="10" cy="8" r="3.5"/><path d="M3.5 20c0-3.6 2.9-6 6.5-6 1.5 0 2.9.4 4 1.2"/><path d="M18 14v6M15 17h6"/>` },
-  { href: "/bulk", key: "bulk", label: t('sidebar.bulk_import'), perm: "users:bulk",
+  { href: "/bulk", key: "bulk", i18n: "sidebar.bulk_import", perm: "users:bulk",
     icon: `<path d="M12 3v10m0 0l-3.5-3.5M12 13l3.5-3.5"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>` },
-  { href: "/clone", key: "clone", label: t('sidebar.clone_user'), perm: "users:clone",
+  { href: "/clone", key: "clone", i18n: "sidebar.clone_user", perm: "users:clone",
     icon: `<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16.5 4.5a3.5 3.5 0 010 7M19.5 14.5c1.8 1 2 3.2 2 5.5"/>` },
-  { href: "/logs", key: "logs", label: t('sidebar.audit_logs'), perm: "logs:read",
+  { href: "/logs", key: "logs", i18n: "sidebar.audit_logs", perm: "logs:read",
     icon: `<path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/>` },
-  { href: "/settings", key: "settings", label: t('sidebar.settings'), perm: "settings:read",
+  { href: "/settings", key: "settings", i18n: "sidebar.settings", perm: "settings:read",
     icon: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.09a1.7 1.7 0 00-1-1.55 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.87 1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.09a1.7 1.7 0 001.55-1 1.7 1.7 0 00-.34-1.87l-.06-.06A2 2 0 117.07 4.2l.06.06a1.7 1.7 0 001.87.34h.08a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.09a1.7 1.7 0 001 1.55h.08a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87v.08a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.09a1.7 1.7 0 00-1.55 1z"/>` },
 ];
 ---
@@ -29,13 +29,13 @@ const items = [
     md:h-screen md:w-60 md:flex-col md:overflow-x-visible md:border-r md:border-b-0 md:px-3 md:py-4
     dark:border-slate-800 dark:bg-slate-900"
 >
-  <a href={base + "/" } class="mb-0 flex items-center gap-2.5 px-2 md:mb-5" aria-label={t('sidebar.dashboard')}>
+  <a href={base + "/" } class="mb-0 flex items-center gap-2.5 px-2 md:mb-5" aria-label={t('sidebar.dashboard')} data-i18n-aria="sidebar.dashboard">
     <span
       class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-accent-700 font-mono text-sm
         font-bold text-white dark:bg-accent-600">ID</span
     >
     <span class="hidden leading-tight md:block">
-      <span class="block text-[13px] font-semibold">{t('sidebar.identity_onboarding')}</span>
+      <span class="block text-[13px] font-semibold" data-i18n="sidebar.identity_onboarding">{t('sidebar.identity_onboarding')}</span>
       <span class="block text-[11px] text-slate-500 dark:text-slate-400">Northwind Dynamics</span>
     </span>
   </a>
@@ -51,7 +51,7 @@ const items = [
         <svg class="size-[18px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
           stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
           set:html={item.icon} />
-        <span class="hidden md:inline">{item.label}</span>
+        <span class="hidden md:inline" data-i18n={item.i18n}>{t(item.i18n)}</span>
       </a>
     ))}
   </nav>

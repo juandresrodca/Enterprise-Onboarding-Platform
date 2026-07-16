@@ -1,8 +1,29 @@
 import { api, ApiError } from "../api";
 import { h, clear, qs } from "../dom";
 import { fmtDateTime } from "../format";
+import { applyTranslations, getLocale, setLocale, type Locale } from "../i18n";
 import { can, requireSession } from "../session";
 import { toast } from "../toast";
+
+// Language toggle - available to every role, independent of settings:read.
+const langButtons = document.querySelectorAll<HTMLButtonElement>("#lang-toggle [data-lang]");
+function highlightLocale() {
+  const current = getLocale();
+  langButtons.forEach((btn) => {
+    const active = btn.dataset.lang === current;
+    btn.classList.toggle("border-accent-600", active);
+    btn.classList.toggle("text-accent-700", active);
+    btn.classList.toggle("dark:text-accent-300", active);
+  });
+}
+langButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    setLocale(btn.dataset.lang as Locale);
+    applyTranslations();
+    highlightLocale();
+  });
+});
+highlightLocale();
 
 interface PlatformSettings {
   app_name: string;
