@@ -16,5 +16,15 @@
     "errors_last_24h": "Errores · últimas 24 h",
     "no_activity": "Sin actividad aún.",
     "no_jobs": "No hay trabajos de onboarding aún."
+  },
+  "settings": {
+    "title": "Configuración",
+    "general": "General",
+    "appearance": "Apariencia",
+    "language": "Idioma",
+    "notifications": "Notificaciones",
+    "save_changes": "Guardar cambios",
+    "dark_mode": "Modo oscuro",
+    "light_mode": "Modo claro"
   }
 }
