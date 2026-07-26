@@ -24,7 +24,7 @@ Astro + Tailwind + TypeScript          FastAPI (async, Pydantic)        PowerShe
   attribute set (identity, organization, contact, address, groups, licenses,
   mailboxes, password policy, home folder, roaming profile, logon script).
 - **Copy existing user (clone)** — pick a template employee and copy OU,
-  organization, manager, address, groups (security/distribution/M365),
+  organization, manager, address, groups(security/distribution/M365),
   licenses, shared mailboxes, proxy-address patterns, extension attributes,
   home folder and logon script. Identity attributes (SID, GUID, password,
   username, email, employee ID, display name, personal data) are **never**
