@@ -114,7 +114,6 @@ enterprise-onboarding/
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design, diagrams, provider abstraction, job engine, security model |
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Local setup, demo mode, prerequisites |
 | [docs/ADMINISTRATOR-GUIDE.md](docs/ADMINISTRATOR-GUIDE.md) | Using every feature, roles, bulk template reference |
-| [docs/DEVELOPER-GUIDE.md](docs/DEVELOPER-GUIDE.md) | Code layout, conventions, extending providers/endpoints |
 | [docs/API.md](docs/API.md) | REST endpoints, permissions, payloads |
 | [docs/POWERSHELL.md](docs/POWERSHELL.md) | Script contract, per-script reference, AD attribute conventions |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Production topology, Entra app registration, HTTPS, hardening |
