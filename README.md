@@ -117,7 +117,6 @@ enterprise-onboarding/
 | [docs/API.md](docs/API.md) | REST endpoints, permissions, payloads |
 | [docs/POWERSHELL.md](docs/POWERSHELL.md) | Script contract, per-script reference, AD attribute conventions |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Production topology, Entra app registration, HTTPS, hardening |
-| [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) | The phased build plan and future-integration roadmap |
 
 ## License / data note
 
