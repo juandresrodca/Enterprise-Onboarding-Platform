@@ -124,3 +124,35 @@ class PowerShellProvider(IdentityProvider):
     async def apply_profile(self, sam: str, profile: dict[str, Any]) -> dict[str, Any]:
         data = await self._runner.run("Create-Profile.ps1", {"sam": sam, **profile})
         return data.get("profile", {})
+
+    # --- offboarding ------------------------------------------------------------
+    async def disable_user(
+        self, sam: str, *, move_to_ou: str | None = None, reset_password: bool = True,
+    ) -> dict[str, Any]:
+        data = await self._runner.run(
+            "Disable-ADUser.ps1",
+            {"sam": sam, "moveToOu": move_to_ou, "resetPassword": reset_password},
+        )
+        return data.get("user", {})
+
+    async def remove_from_groups(
+        self, sam: str, *, keep_distribution_lists: bool = True
+    ) -> list[str]:
+        data = await self._runner.run(
+            "Remove-UserGroups.ps1",
+            {"sam": sam, "keepDistributionLists": keep_distribution_lists},
+        )
+        return data.get("removed", [])
+
+    async def revoke_licenses(self, sam: str) -> list[str]:
+        data = await self._runner.run("Assign-Licenses.ps1", {"action": "revoke", "sam": sam})
+        return data.get("revoked", [])
+
+    async def convert_mailbox_to_shared(
+        self, sam: str, *, grant_access_to: str | None = None
+    ) -> dict[str, Any]:
+        data = await self._runner.run(
+            "Create-Mailbox.ps1",
+            {"action": "convert-shared", "sam": sam, "grantAccessTo": grant_access_to},
+        )
+        return data.get("mailbox", {})

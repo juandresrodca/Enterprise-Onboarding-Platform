@@ -4,6 +4,7 @@
     "create_users": "Crear usuarios",
     "bulk_import": "Importación masiva",
     "clone_user": "Clonar usuario",
+    "offboard": "Dar de baja usuarios",
     "audit_logs": "Logs de auditoría",
     "settings": "Configuración",
     "identity_onboarding": "Onboarding de Identidad"

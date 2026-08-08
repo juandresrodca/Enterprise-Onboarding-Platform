@@ -7,8 +7,10 @@
       { "action": "list" }
       { "action": "assign", "sam": "jane.doe", "skus": ["SPE_E3"],
         "defaultUsageLocation": "US" }
+      { "action": "revoke", "sam": "jane.doe" }
     A usage location is mandatory before license assignment; the user's AD
-    country is used, falling back to defaultUsageLocation.
+    country is used, falling back to defaultUsageLocation. "revoke" removes
+    every license currently assigned to the user (offboarding).
     Requires an established Graph session (Connect-Entra.ps1).
 #>
 [CmdletBinding()] param()
@@ -35,6 +37,25 @@ Invoke-OnboardingScript -ScriptName 'Assign-Licenses.ps1' -Main {
                 }
             })
         }
+    }
+
+    if ($action -eq 'revoke') {
+        $sam = Get-ParamValue $Params 'sam'
+        if (-not $sam) { Stop-Onboarding -Code 'invalid_params' -Message 'sam is required for revoke' }
+        Assert-ModuleAvailable -Name ActiveDirectory
+        $adUser = Get-ADUser -Identity $sam -Properties UserPrincipalName -ErrorAction Stop
+        $mgUser = Get-MgUser -Filter "userPrincipalName eq '$($adUser.UserPrincipalName)'" -Property Id -ErrorAction Stop
+        if (-not $mgUser) {
+            Write-OnboardingLog -Level WARN -Message "User '$sam' not found in Entra ID; nothing to revoke"
+            return @{ revoked = @() }
+        }
+        $current = @(Get-MgUserLicenseDetail -UserId $mgUser.Id -ErrorAction Stop)
+        if ($current.Count -eq 0) { return @{ revoked = @() } }
+        $removeIds = @($current | ForEach-Object { $_.SkuId })
+        Set-MgUserLicense -UserId $mgUser.Id -AddLicenses @() -RemoveLicenses $removeIds -ErrorAction Stop
+        $skus = @($current | ForEach-Object { $_.SkuPartNumber })
+        Write-OnboardingLog -Level INFO -Message "Revoked licenses from ${sam}: $($skus -join ', ')"
+        return @{ revoked = @($skus) }
     }
 
     $sam  = Get-ParamValue $Params 'sam'

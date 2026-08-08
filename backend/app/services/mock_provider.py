@@ -339,3 +339,73 @@ class MockProvider(IdentityProvider):
             user["profile"] = {k: v for k, v in profile.items() if v}
             self._save()
             return user["profile"]
+
+    # --- offboarding -----------------------------------------------------------
+    async def disable_user(
+        self, sam: str, *, move_to_ou: str | None = None, reset_password: bool = True,
+    ) -> dict[str, Any]:
+        async with self._lock:
+            await asyncio.sleep(_LATENCY)
+            user = self._find_required(sam)
+            if not user.get("enabled", True):
+                raise ConflictError(f"User '{sam}' is already disabled")
+            if move_to_ou and not await self.ou_exists(move_to_ou):
+                raise ProviderError(f"Target OU does not exist: {move_to_ou}")
+            user["enabled"] = False
+            user["disabled_at"] = datetime.now(timezone.utc).isoformat()
+            if move_to_ou:
+                user["ou"] = move_to_ou
+            if reset_password:
+                # Simulated only - a real directory randomizes and never exposes it.
+                user["must_change_password"] = True
+            self._save()
+            return _summary(user)
+
+    async def remove_from_groups(
+        self, sam: str, *, keep_distribution_lists: bool = True
+    ) -> list[str]:
+        async with self._lock:
+            await asyncio.sleep(_LATENCY / 2)
+            user = self._find_required(sam)
+            categories = {g["name"]: g["category"] for g in self._state["groups"]}
+            keep = {
+                g for g in user["groups"] if keep_distribution_lists and categories.get(g) == "distribution"
+            }
+            removed = [g for g in user["groups"] if g not in keep]
+            user["groups"] = sorted(keep)
+            self._save()
+            return removed
+
+    async def revoke_licenses(self, sam: str) -> list[str]:
+        async with self._lock:
+            await asyncio.sleep(_LATENCY / 2)
+            user = self._find_required(sam)
+            revoked = list(user["licenses"])
+            user["licenses"] = []
+            self._save()
+            return revoked
+
+    async def convert_mailbox_to_shared(
+        self, sam: str, *, grant_access_to: str | None = None
+    ) -> dict[str, Any]:
+        async with self._lock:
+            await asyncio.sleep(_LATENCY)
+            user = self._find_required(sam)
+            if not user.get("mailbox"):
+                raise ProviderError(f"User '{sam}' has no mailbox to convert")
+            user["mailbox_type"] = "shared"
+            access_granted = None
+            if grant_access_to:
+                manager = self._find(grant_access_to)
+                if not manager:
+                    raise ProviderError(f"Handover recipient '{grant_access_to}' not found")
+                delegates = user.setdefault("mailbox_delegates", [])
+                if manager["sam_account_name"] not in delegates:
+                    delegates.append(manager["sam_account_name"])
+                access_granted = manager["sam_account_name"]
+            self._save()
+            return {
+                "email": user.get("email") or user["user_principal_name"],
+                "type": "SharedMailbox",
+                "access_granted_to": access_granted,
+            }

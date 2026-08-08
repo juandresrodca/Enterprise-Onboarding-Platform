@@ -29,6 +29,12 @@ Astro + Tailwind + TypeScript          FastAPI (async, Pydantic)        PowerShe
   home folder and logon script. Identity attributes (SID, GUID, password,
   username, email, employee ID, display name, personal data) are **never**
   copied; the administrator chooses which families to copy.
+- **Offboard users** — disable one or many departing employees: revoke
+  licenses, remove group memberships (distribution lists optionally kept for
+  handover continuity), convert the mailbox to shared with optional manager
+  access grant, randomize the password, and optionally relocate to a
+  disabled-users OU. Same preview-and-approve gate and live progress as
+  onboarding.
 - **Bulk import** from CSV, Excel (.xlsx) or JSON with automatic header
   mapping for common HR-system exports.
 - **Validation engine**: duplicate usernames/UPNs/emails (batch + directory),
@@ -85,12 +91,13 @@ https://github.com/user-attachments/assets/9fd2102b-c6e1-4bf6-a911-94c18cc95191
 
 Try it: sign in as `gadmin` → **Create users** → onboard *John Doe* into
 Finance → watch the live job → then **Clone user** with *John Smith* as the
-template.
+template → then **Offboard users** to deactivate someone and hand off their
+mailbox.
 
 ## Tests
 
 ```bash
-cd backend && .venv/Scripts/python -m pytest          # 34 API/unit/integration tests
+cd backend && .venv/Scripts/python -m pytest          # 42 API/unit/integration tests
 powershell -File powershell/tests/Invoke-SmokeTest.ps1 # module contract smoke test
 Invoke-Pester powershell/tests                         # Pester 5 suite
 ```

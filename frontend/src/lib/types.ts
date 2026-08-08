@@ -151,6 +151,39 @@ export interface ExecutionPlan {
   issues: ValidationIssue[];
 }
 
+export interface OffboardOptions {
+  revoke_licenses: boolean;
+  remove_from_groups: boolean;
+  keep_distribution_lists: boolean;
+  convert_mailbox_to_shared: boolean;
+  grant_mailbox_access_to?: string | null;
+  move_to_ou?: string | null;
+  reset_password: boolean;
+}
+
+export interface OffboardTarget {
+  sam_account_name: string;
+  reason?: string | null;
+}
+
+export interface OffboardUserPlan {
+  sam_account_name: string;
+  display_name: string;
+  user_principal_name: string;
+  email: string | null;
+  ou: string | null;
+  actions: PlanAction[];
+  warnings: string[];
+}
+
+export interface OffboardExecutionPlan {
+  summary: string;
+  total_users: number;
+  total_actions: number;
+  users: OffboardUserPlan[];
+  issues: ValidationIssue[];
+}
+
 export interface UserResult {
   sam_account_name: string;
   user_principal_name: string;

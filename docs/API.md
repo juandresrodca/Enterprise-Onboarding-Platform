@@ -41,6 +41,19 @@ requests additionally require the `X-CSRF-Token` header mirroring the
 `profile{roaming_profile_path, logon_script}`,
 `password{generate, value, force_change_at_logon, never_expires}`.
 
+## Offboarding
+
+| Method & path | Permission | Description |
+|---|---|---|
+| `POST /offboard/preview` | users:offboard | Body `{users: [{sam_account_name, reason}], options}` → `OffboardExecutionPlan` (validation issues embedded; nothing executed). |
+| `POST /offboard` | users:offboard | Re-validates; 422 with issues if invalid, else **202** `{job_id}`. Already-disabled targets are skipped, not errored. |
+
+`OffboardOptions` fields: `revoke_licenses`, `remove_from_groups`,
+`keep_distribution_lists` (only applies when `remove_from_groups`),
+`convert_mailbox_to_shared`, `grant_mailbox_access_to` (manager sAMAccountName,
+for handover), `move_to_ou` (target OU distinguishedName), `reset_password`
+— all batch-wide, applied identically to every target in the request.
+
 ## Directory
 
 | Method & path | Permission | Description |

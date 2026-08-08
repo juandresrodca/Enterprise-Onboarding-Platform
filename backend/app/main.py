@@ -16,7 +16,7 @@ from fastapi.responses import JSONResponse
 from app import __version__
 from app.api import (
     routes_auth, routes_dashboard, routes_directory, routes_jobs, routes_logs,
-    routes_meta, routes_users,
+    routes_meta, routes_offboard, routes_users,
 )
 from app.config import get_settings
 from app.core.exceptions import OnboardingError
@@ -135,6 +135,7 @@ def create_app() -> FastAPI:
     app.include_router(routes_meta.router, prefix=prefix)
     app.include_router(routes_auth.router, prefix=prefix)
     app.include_router(routes_users.router, prefix=prefix)
+    app.include_router(routes_offboard.router, prefix=prefix)
     app.include_router(routes_directory.router, prefix=prefix)
     app.include_router(routes_jobs.router, prefix=prefix)
     app.include_router(routes_logs.router, prefix=prefix)

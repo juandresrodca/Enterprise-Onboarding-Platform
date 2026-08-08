@@ -91,6 +91,34 @@ class IdentityProvider(ABC):
     @abstractmethod
     async def apply_profile(self, sam: str, profile: dict[str, Any]) -> dict[str, Any]: ...
 
+    # --- offboarding ------------------------------------------------------------
+    @abstractmethod
+    async def disable_user(
+        self, sam: str, *, move_to_ou: str | None = None, reset_password: bool = True,
+    ) -> dict[str, Any]:
+        """Disable sign-in, optionally relocate to a disabled-users OU and
+        randomize the password. Returns the updated user summary."""
+
+    @abstractmethod
+    async def remove_from_groups(
+        self, sam: str, *, keep_distribution_lists: bool = True
+    ) -> list[str]:
+        """Remove the user from every group (security, M365, and optionally
+        distribution lists). Returns the group names actually removed."""
+
+    @abstractmethod
+    async def revoke_licenses(self, sam: str) -> list[str]:
+        """Remove every Microsoft 365 license from the user. Returns the
+        SKUs actually revoked."""
+
+    @abstractmethod
+    async def convert_mailbox_to_shared(
+        self, sam: str, *, grant_access_to: str | None = None
+    ) -> dict[str, Any]:
+        """Convert the mailbox to shared (preserves mail history for handover)
+        and optionally grant FullAccess to a manager. Returns
+        {email, type, access_granted_to}."""
+
     # --- lifecycle ------------------------------------------------------------
     async def startup(self) -> None:  # pragma: no cover - optional hook
         return

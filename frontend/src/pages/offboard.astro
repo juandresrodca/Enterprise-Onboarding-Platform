@@ -1,0 +1,85 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+---
+
+<AppLayout title="Offboard users" subtitle="Deactivate departed employees: disable sign-in, revoke access, hand over their mailbox" active="offboard">
+  <section class="card mb-5 px-4 py-4">
+    <label class="label" for="offboard-search">Search users to offboard</label>
+    <div class="relative max-w-md">
+      <input id="offboard-search" class="input" placeholder="Search by name, username or department…"
+        autocomplete="off" />
+      <div id="offboard-results"
+        class="absolute inset-x-0 top-full z-20 mt-1 hidden max-h-72 overflow-y-auto rounded-lg border
+          border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900"></div>
+    </div>
+    <div id="offboard-selected" class="mt-4 space-y-2"></div>
+  </section>
+
+  <section class="card mb-5 px-4 py-4">
+    <h2 class="mb-3 text-sm font-semibold">What should happen to each account?</h2>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <label class="flex items-start gap-2.5 rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-800">
+        <input id="opt-revoke-licenses" type="checkbox" class="mt-0.5 size-4 accent-teal-700" checked />
+        <span>
+          <span class="block text-sm font-medium">Revoke Microsoft 365 licenses</span>
+          <span class="block text-xs text-slate-500">Frees the seat immediately for reassignment</span>
+        </span>
+      </label>
+      <label class="flex items-start gap-2.5 rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-800">
+        <input id="opt-remove-groups" type="checkbox" class="mt-0.5 size-4 accent-teal-700" checked />
+        <span>
+          <span class="block text-sm font-medium">Remove from groups</span>
+          <span class="block text-xs text-slate-500">Security and Microsoft 365 groups</span>
+        </span>
+      </label>
+      <label class="ml-6 flex items-start gap-2.5 rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-800">
+        <input id="opt-keep-dls" type="checkbox" class="mt-0.5 size-4 accent-teal-700" checked />
+        <span>
+          <span class="block text-sm font-medium">Keep distribution lists</span>
+          <span class="block text-xs text-slate-500">Continuity of internal comms during handover</span>
+        </span>
+      </label>
+      <label class="flex items-start gap-2.5 rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-800">
+        <input id="opt-reset-password" type="checkbox" class="mt-0.5 size-4 accent-teal-700" checked />
+        <span>
+          <span class="block text-sm font-medium">Randomize password</span>
+          <span class="block text-xs text-slate-500">Defense in depth if re-enabled by mistake</span>
+        </span>
+      </label>
+      <label class="flex items-start gap-2.5 rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-800">
+        <input id="opt-convert-mailbox" type="checkbox" class="mt-0.5 size-4 accent-teal-700" checked />
+        <span>
+          <span class="block text-sm font-medium">Convert mailbox to shared</span>
+          <span class="block text-xs text-slate-500">Preserves mail history for handover, frees the license</span>
+        </span>
+      </label>
+      <div>
+        <label class="label" for="opt-handover">Grant mailbox access to (optional)</label>
+        <input id="opt-handover" class="input mono" list="offboard-handover-list"
+          placeholder="manager's username…" autocomplete="off" />
+        <datalist id="offboard-handover-list"></datalist>
+      </div>
+      <div class="sm:col-span-2">
+        <label class="label" for="opt-move-ou">Move to organizational unit (optional)</label>
+        <div class="flex gap-2">
+          <input id="opt-move-ou" class="input mono cursor-pointer" readonly
+            placeholder="Leave in place, or browse to a disabled-users OU…" />
+          <button id="opt-move-ou-browse" type="button" class="btn-secondary shrink-0">Browse</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="offboard-action-bar"
+    class="sticky bottom-4 z-30 hidden flex-wrap items-center gap-3 rounded-xl border
+      border-slate-200 bg-white/95 px-4 py-3 shadow-lg shadow-slate-900/10 backdrop-blur
+      dark:border-slate-700 dark:bg-slate-900/95">
+    <span id="offboard-badge" class="badge-muted">not previewed</span>
+    <div class="flex-1"></div>
+    <button id="offboard-preview-btn" class="btn-danger" type="button">Preview offboarding</button>
+  </div>
+
+  <script>
+    import "../lib/pages/offboard";
+  </script>
+</AppLayout>

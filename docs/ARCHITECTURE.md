@@ -7,7 +7,7 @@ Three tiers with one hard seam (the identity provider interface):
 ```mermaid
 flowchart TD
     subgraph Client
-      UI[Astro + TS frontend<br/>Dashboard · Create · Bulk · Clone · Logs · Settings]
+      UI[Astro + TS frontend<br/>Dashboard · Create · Bulk · Clone · Offboard · Logs · Settings]
     end
     subgraph API [FastAPI backend]
       AUTH[Auth<br/>Entra ID OIDC / demo local<br/>JWT cookie + CSRF]
@@ -95,9 +95,27 @@ sequenceDiagram
   batch continues; failures in later steps (groups, licenses, mailbox, home
   folder, profile) degrade to per-user warnings — matching operational
   reality where a license pool may be empty but the account must still exist.
+- `_run` dispatches on `job.type` (`onboard`/`clone` vs `offboard`) to two
+  payload-specific handlers, but both funnel through one shared
+  `_process_item` envelope (try → log → audit → emit progress) so a single
+  item's failure never aborts the batch, regardless of direction.
 - Subscribers get events over SSE: `snapshot`, `log`, `progress`, `done`
   (+ `ping` keep-alives). Jobs are retained in memory (last 200); every side
   effect is durably audited in SQLite.
+
+## Offboarding flow
+
+Deliberate mirror of onboarding, reusing every layer: `app/services/offboard.py`
+validates targets against the directory (existence, already-disabled as a
+warning not an error, manager/OU option checks) and builds an
+`OffboardExecutionPlan` with the same `{index, field, code, severity}` issue
+shape and preview-and-approve gate. Four new `IdentityProvider` methods
+(`disable_user`, `remove_from_groups`, `revoke_licenses`,
+`convert_mailbox_to_shared`) back it in both providers; production maps to
+`Disable-ADUser.ps1`, `Remove-UserGroups.ps1`, and new actions on the
+existing `Assign-Licenses.ps1` / `Create-Mailbox.ps1` scripts. The account is
+disabled, never deleted — deletion is a retention-policy decision left to
+the organization.
 
 ## Validation & identity derivation
 

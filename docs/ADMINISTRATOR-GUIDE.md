@@ -7,6 +7,7 @@
 | Dashboard, user search, job status, audit logs | ✔ | ✔ | ✔ | ✔ |
 | Create users / bulk import | | ✔ | ✔ | ✔ |
 | Clone (copy existing user) | | | ✔ | ✔ |
+| Offboard (deactivate existing user) | | | ✔ | ✔ |
 | Export audit logs (CSV/JSON/PDF) | | | ✔ | ✔ |
 | View platform settings | | | ✔ | ✔ |
 | Edit password policy / naming convention | | | | ✔ |
@@ -53,6 +54,33 @@ and recent jobs.
    display name, mobile — are **never** copied, by design.
 3. Enter first/last name (and optional title/employee ID) for each new user.
 4. **Preview clone** shows the merged result; approve to execute.
+
+## Offboard users
+
+1. Search and add one or more departing employees to the batch — each gets
+   its own card with an optional free-text **reason** (audited, not shown to
+   the user, e.g. "Resigned", "Terminated", "Contract ended").
+2. Choose what happens, applied identically to everyone in the batch:
+   - **Revoke Microsoft 365 licenses** — frees the seat immediately.
+   - **Remove from groups** (security + M365); **keep distribution lists**
+     is on by default so departed employees can still receive
+     announcement/newsletter mail briefly during handover.
+   - **Randomize password** — defense in depth if the account is ever
+     re-enabled by mistake; the generated value is never shown or stored.
+   - **Convert mailbox to shared** — preserves mail history; optionally
+     **grant mailbox access to** a manager (autocomplete) for handover.
+   - **Move to organizational unit** — optional relocation to a
+     disabled-users OU via the same tree picker used elsewhere.
+3. **Preview offboarding** shows the exact plan per user, same
+   preview-and-approve gate as onboarding. Already-disabled accounts in the
+   batch are flagged with a warning and skipped, not treated as an error.
+4. Approve → live progress window, same as onboarding. Every step (disable,
+   group removal, license revocation, mailbox conversion) is individually
+   audited.
+
+The account itself is never deleted — offboarding disables it, which is the
+reversible, auditable action; a separate deletion policy (retention period,
+then hard delete) is an administrative decision outside this tool.
 
 ## Bulk import
 

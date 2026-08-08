@@ -34,6 +34,7 @@ PERMISSIONS: dict[str, set[Role]] = {
     "users:create": _HR_UP,
     "users:bulk": _HR_UP,
     "users:clone": _ADMIN_UP,
+    "users:offboard": _ADMIN_UP,
     "directory:read": _ALL,
     "jobs:read": _ALL,
     "logs:read": _ALL,

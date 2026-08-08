@@ -46,6 +46,20 @@ phase, and the roadmap for the anticipated integrations.
   (9 groups, 2 licenses, shared mailboxes, proxy pattern, ext. attributes);
   audit trail and exports confirmed.
 
+## Phase 7 — Offboarding ✅
+- Full deactivation lifecycle to match onboarding: disable account (with
+  password randomization and optional relocation to a disabled-users OU),
+  remove group memberships (distribution lists optionally preserved for
+  handover continuity), revoke Microsoft 365 licenses, convert the mailbox
+  to shared with optional manager handover access. Same preview-and-approve
+  gate, live progress, and per-step audit trail as onboarding — reused the
+  `IdentityProvider` seam (4 new methods), generalized the job engine to
+  dispatch on job type, and added `Disable-ADUser.ps1` +
+  `Remove-UserGroups.ps1` plus new actions on `Assign-Licenses.ps1` /
+  `Create-Mailbox.ps1`.
+- *Verified by*: 8 new backend tests (42 total) + full browser walkthrough
+  (offboarded a real seed user end-to-end with mailbox handover).
+
 ## Roadmap (architecture already accommodates)
 
 | Integration | Attach point |

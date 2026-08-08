@@ -4,6 +4,7 @@
     "create_users": "Create users",
     "bulk_import": "Bulk import",
     "clone_user": "Clone user",
+    "offboard": "Offboard users",
     "audit_logs": "Audit logs",
     "settings": "Settings",
     "identity_onboarding": "Identity Onboarding"

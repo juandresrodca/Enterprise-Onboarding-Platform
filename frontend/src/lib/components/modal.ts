@@ -4,7 +4,7 @@ import { apiUrl } from "../api";
 import { h, icon, clear } from "../dom";
 import { fmtDateTime } from "../format";
 import { toast } from "../toast";
-import type { ExecutionPlan, Job, JobLogEntry, UserResult } from "../types";
+import type { Job, JobLogEntry, PlanAction, UserResult } from "../types";
 
 export interface ModalHandle {
   close(): void;
@@ -77,10 +77,26 @@ const ACTION_LABEL: Record<string, string> = {
   extensions: "Extension attributes",
   home_folder: "Home folder",
   profile: "Profile",
+  disable: "Account",
+  move_ou: "Organizational unit",
+  reason: "Reason",
 };
 
+/** Structural minimum openPreviewModal needs - both ExecutionPlan (onboard/
+ * clone) and OffboardExecutionPlan satisfy this without a cast. */
+interface PreviewablePlan {
+  summary: string;
+  total_actions: number;
+  users: {
+    display_name: string;
+    user_principal_name: string;
+    actions: PlanAction[];
+    warnings: string[];
+  }[];
+}
+
 export function openPreviewModal(
-  plan: ExecutionPlan,
+  plan: PreviewablePlan,
   onApprove: () => void,
 ): void {
   const modal = openModal("Review execution plan", { wide: true });
@@ -166,8 +182,13 @@ const LOG_COLOR: Record<JobLogEntry["level"], string> = {
   error: "text-rose-400",
 };
 
-export function openProgressModal(jobId: string, onFinished?: (job: Job) => void): void {
-  const modal = openModal("Onboarding in progress", { wide: true, persistent: true });
+export function openProgressModal(
+  jobId: string,
+  onFinished?: (job: Job) => void,
+  options: { title?: string; verb?: string } = {},
+): void {
+  const { title = "Onboarding in progress", verb = "onboarded" } = options;
+  const modal = openModal(title, { wide: true, persistent: true });
 
   const bar = h("div", {
     class: "h-2 w-0 rounded-full bg-accent-600 transition-[width] duration-300 ease-out",
@@ -226,13 +247,16 @@ export function openProgressModal(jobId: string, onFinished?: (job: Job) => void
       h("h3", { class: "mb-2 text-xs font-semibold tracking-wide text-slate-500 uppercase" },
         "Results"),
       h("div", { class: "card divide-y divide-slate-100 dark:divide-slate-800" }, rows),
+      // Element.append() stringifies a bare null/undefined into a literal
+      // "null" text node (unlike the h() builder, which filters falsy
+      // children) - pass "" instead when there's nothing to show.
       job.results.some((r) => r.generated_password)
         ? h(
             "p",
             { class: "mt-2 text-xs text-amber-600 dark:text-amber-400" },
             "Generated passwords are shown only here and are not stored. Hand them over through a secure channel.",
           )
-        : null,
+        : "",
     );
   }
 
@@ -241,7 +265,7 @@ export function openProgressModal(jobId: string, onFinished?: (job: Job) => void
       "div",
       { class: "flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2.5" },
       result.status === "success"
-        ? h("span", { class: "badge-ok" }, icon("check", "size-3"), "created")
+        ? h("span", { class: "badge-ok" }, icon("check", "size-3"), "done")
         : h("span", { class: "badge-err" }, icon("x", "size-3"), "failed"),
       h("span", { class: "text-sm font-medium" }, result.display_name),
       h("span", { class: "mono text-xs text-slate-500" }, result.user_principal_name),
@@ -331,7 +355,7 @@ export function openProgressModal(jobId: string, onFinished?: (job: Job) => void
       ? `Done — ${job.total} succeeded`
       : `Finished with ${job.errors} error(s)`;
     toast(ok ? "success" : "warning", ok
-      ? `Job finished: ${job.total} user(s) onboarded`
+      ? `Job finished: ${job.total} user(s) ${verb}`
       : `Job finished with ${job.errors} error(s)`);
     onFinished?.(job);
   }

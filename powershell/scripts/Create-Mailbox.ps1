@@ -10,6 +10,7 @@
       { "action": "grant-shared", "sam": "jane.doe",
         "mailboxes": ["finance-invoices@contoso.com"] }
       { "action": "list-shared" }
+      { "action": "convert-shared", "sam": "jane.doe", "grantAccessTo": "manager.sam" }
     Notes:
       * In hybrid environments, Enable-RemoteMailbox (Exchange Management
         Tools) creates the on-prem stub; the cloud mailbox materializes once
@@ -63,6 +64,27 @@ Invoke-OnboardingScript -ScriptName 'Create-Mailbox.ps1' -Main {
             return @{ mailbox = @{ email = $adUser.UserPrincipalName; type = 'PendingLicenseProvisioning' } }
         }
         Stop-Onboarding -Code 'module_missing' -Message 'Neither Exchange Management Tools nor ExchangeOnlineManagement is available'
+    }
+
+    if ($action -eq 'convert-shared') {
+        Assert-ModuleAvailable -Name ExchangeOnlineManagement
+        $grantAccessTo = Get-ParamValue $Params 'grantAccessTo'
+        Set-Mailbox -Identity $adUser.UserPrincipalName -Type Shared -ErrorAction Stop
+        Write-OnboardingLog -Level INFO -Message "Converted mailbox to shared: $($adUser.UserPrincipalName)"
+        $accessGranted = $null
+        if ($grantAccessTo) {
+            try {
+                $delegate = Get-ADUser -Identity $grantAccessTo -Properties UserPrincipalName -ErrorAction Stop
+                Add-MailboxPermission -Identity $adUser.UserPrincipalName -User $delegate.UserPrincipalName `
+                    -AccessRights FullAccess -AutoMapping $true -ErrorAction Stop | Out-Null
+                $accessGranted = $delegate.SamAccountName
+                Write-OnboardingLog -Level INFO -Message "Granted $($delegate.SamAccountName) FullAccess on $($adUser.UserPrincipalName)"
+            }
+            catch {
+                Stop-Onboarding -Code 'handover_failed' -Message "Mailbox converted, but granting access to '$grantAccessTo' failed: $($_.Exception.Message)"
+            }
+        }
+        return @{ mailbox = @{ email = $adUser.UserPrincipalName; type = 'SharedMailbox'; access_granted_to = $accessGranted } }
     }
 
     if ($action -eq 'grant-shared') {

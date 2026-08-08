@@ -51,10 +51,12 @@ Run one manually:
 | `Create-ADUser.ps1` | `{user{...}, password}` | `New-ADUser` with the full attribute set, manager resolution, expiration, proxyAddresses & extensionAttributes via `-OtherAttributes`; duplicate guard. |
 | `Clone-User.ps1` | `{sourceSam}` | Gathers the template user's copyable bundle (merge policy is enforced backend-side). |
 | `Assign-Groups.ps1` | `{sam, groups[]}` | AD groups first; unresolved names attempted as M365 unified groups via Graph. Per-group failure report. |
-| `Assign-Licenses.ps1` | `{action:"list"}` / `{action:"assign", sam, skus[]}` | `Get-MgSubscribedSku` / `Set-MgUserLicense`; sets UsageLocation from AD country; availability checks with precise error codes. |
-| `Create-Mailbox.ps1` | `{action:"create"\|"grant-shared"\|"list-shared", ...}` | Hybrid `Enable-RemoteMailbox` (needs `remoteRoutingDomain`) or cloud license-driven provisioning; shared-mailbox FullAccess + SendAs. |
+| `Assign-Licenses.ps1` | `{action:"list"}` / `{action:"assign", sam, skus[]}` / `{action:"revoke", sam}` | `Get-MgSubscribedSku` / `Set-MgUserLicense`; sets UsageLocation from AD country; availability checks with precise error codes. `revoke` strips every license currently assigned (offboarding). |
+| `Create-Mailbox.ps1` | `{action:"create"\|"grant-shared"\|"list-shared"\|"convert-shared", ...}` | Hybrid `Enable-RemoteMailbox` (needs `remoteRoutingDomain`) or cloud license-driven provisioning; shared-mailbox FullAccess + SendAs. `convert-shared` (offboarding) sets `-Type Shared` and optionally grants a manager FullAccess for handover. |
 | `Create-HomeFolder.ps1` | `{sam, path, drive}` | UNC-only; `New-Item` + `icacls` Modify (OI)(CI) + `Set-ADUser -HomeDirectory/-HomeDrive`. |
 | `Create-Profile.ps1` | `{sam, roaming_profile_path?, logon_script?}` | `Set-ADUser -ProfilePath/-ScriptPath`. |
+| `Disable-ADUser.ps1` | `{sam, moveToOu?, resetPassword}` | `Disable-ADAccount`; optionally `Move-ADObject` to a disabled-users OU and randomize the password (`Set-ADAccountPassword`) — the random value is generated, applied and discarded in the same scope, never returned or logged. |
+| `Remove-UserGroups.ps1` | `{sam, keepDistributionLists}` | Removes AD security-group and Graph M365 unified-group membership; the primary group is never touched (AD requires exactly one). Distribution lists are kept by default for handover continuity. |
 | `Validation.ps1` | `{check: identity\|manager\|ou\|groups\|employeeId, ...}` | Server-side existence checks used by the validator. |
 | `Audit.ps1` | `{entry{...}}` | Appends to the host-side `logs/audit-ps.jsonl` (SIEM pickup). |
 
