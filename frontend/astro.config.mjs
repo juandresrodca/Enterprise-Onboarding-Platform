@@ -8,7 +8,7 @@ export default defineConfig({
   // For GitHub Pages project sites set PUBLIC_BASE_PATH=/<repo-name> at build
   // time (see .github/workflows/deploy-pages.yml). Defaults to "/".
   base: process.env.PUBLIC_BASE_PATH || "/",
-  server: { port: 4321 },
+  server: { port: 4321 }, // the default port to work on the server 
   vite: {
     plugins: [tailwindcss()],
     server: {
