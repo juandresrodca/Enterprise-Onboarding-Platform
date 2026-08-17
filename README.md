@@ -3,7 +3,7 @@
 A production-grade platform for onboarding one or many users into **Active
 Directory / Microsoft Entra ID** environments (hybrid, Exchange Online,
 Microsoft 365) from a web interface — with validation, preview/approval,
-live execution progress and a full audit trail.
+live execution progress and  a full audit trail.
 
 ```
 Astro + Tailwind + TypeScript          FastAPI (async, Pydantic)        PowerShell 7+
@@ -20,20 +20,20 @@ Astro + Tailwind + TypeScript          FastAPI (async, Pydantic)        PowerShe
 
 ## Feature highlights
 
-- **Create 1–50 users** with dynamically generated  forms covering the full
+- **Create 1–50 users** with dynamically  generated  forms covering the full
   attribute set (identity, organization, contact, address, groups, licenses,
   mailboxes, password policy, home folder, roaming profile, logon script)
 - **Copy existing user (clone)** — pick a template employee and copy OU,
   organization, manager, address, groups(security/distribution/M365),
   licenses, shared mailboxes, proxy-address patterns, extension attributes,
   home folder and logon script. Identity attributes (SID, GUID, password,
-  username, email, employee ID, display name, personal data) are **never**
+  username, email, employee ID, display  name, personal data) are **never**
   copied; the administrator chooses which families to copy.
 - **Offboard users** — disable one or many departing employees: revoke
-  licenses, remove group memberships (distribution lists optionally kept for
+  licenses, remove group memberships (distribution  lists optionally kept for
   handover continuity), convert the mailbox to shared with optional manager
   access grant, randomize the password, and optionally relocate to a
-  disabled-users OU. Same preview-and-approve gate and live progress as
+  disabled-users OU. Same preview-and-approve gate  and live progress as
   onboarding.
 - **Bulk import** from CSV, Excel (.xlsx) or JSON with automatic header
   mapping for common HR-system exports.
