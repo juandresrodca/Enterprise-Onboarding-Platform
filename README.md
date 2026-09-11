@@ -1,5 +1,7 @@
 # Enterprise Identity Onboarding Automation
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 A production-grade platform for onboarding one or many users into **Active
 Directory / Microsoft Entra ID** environments (hybrid, Exchange Online,
 Microsoft 365) from a web interface — with validation, preview/approval,
@@ -125,6 +127,17 @@ enterprise-onboarding/
 | [docs/POWERSHELL.md](docs/POWERSHELL.md) | Script contract, per-script reference, AD attribute conventions |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Production topology, Entra app registration, HTTPS, hardening |
 
-## License / data note
+## License
 
-All names, companies and identifiers in the demo dataset are fictional.
+[MIT](LICENSE) (c) 2026 Juan Andres Rodriguez.
+
+You may run, modify and deploy this platform inside your own organisation,
+including commercially, provided the copyright notice and licence text travel
+with it. It is provided as is and with no warranty — read the licence before
+you point it at a production directory.
+
+### Data note
+
+All names, companies and identifiers in the demo dataset are fictional. The
+seeded Northwind Dynamics tenant exists only in `MockProvider`; nothing in this
+repository contains, or has ever contained, data from a real directory.
