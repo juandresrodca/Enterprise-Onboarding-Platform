@@ -54,6 +54,8 @@ Astro + Tailwind + TypeScript          FastAPI (async, Pydantic)        PowerShe
   accounts, 4-tier RBAC (Helpdesk / HR / Administrator / Global Admin),
   httpOnly JWT session cookies with timeout, CSRF double-submit protection,
   login lockout, PBKDF2 password hashing, secrets via environment/stdin only.
+  The shipped defaults are demo defaults — [SECURITY.md](SECURITY.md) lists the
+  four to change before this touches a real directory.
 
 ## Quickstart (demo mode — no AD required)
 
@@ -126,6 +128,7 @@ enterprise-onboarding/
 | [docs/API.md](docs/API.md) | REST endpoints, permissions, payloads |
 | [docs/POWERSHELL.md](docs/POWERSHELL.md) | Script contract, per-script reference, AD attribute conventions |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Production topology, Entra app registration, HTTPS, hardening |
+| [SECURITY.md](SECURITY.md) | Reporting a vulnerability, which demo defaults to change before production, least-privilege service accounts |
 
 ## License
 
