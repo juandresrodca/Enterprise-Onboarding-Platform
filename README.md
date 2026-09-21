@@ -129,6 +129,7 @@ enterprise-onboarding/
 | [docs/POWERSHELL.md](docs/POWERSHELL.md) | Script contract, per-script reference, AD attribute conventions |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Production topology, Entra app registration, HTTPS, hardening |
 | [SECURITY.md](SECURITY.md) | Reporting a vulnerability, which demo defaults to change before production, least-privilege service accounts |
+| [CHANGELOG.md](CHANGELOG.md) | What changed in each release, and the open issues shaping the next one |
 
 ## License
 
