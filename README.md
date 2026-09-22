@@ -75,9 +75,16 @@ cd frontend
 npm install
 npm run dev                                           # http://localhost:4321
 ```
-> [!IMPORTANT]  
-> Is necessary for users who want to test the demo version in Chrome must enable third-party cookies on the site.
-> Use the issue if you want to contribute on this https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/1
+> [!IMPORTANT]
+> **If the live demo sends you back to the login screen**, the browser dropped the
+> session cookie: the Pages frontend and the Render API are on different origins,
+> so it is a third-party cookie. It fails in Chrome Incognito, in Safari, and
+> wherever third-party cookies are switched off — a normal Chrome, Edge or Firefox
+> window works, as does `docker compose up` locally. Full explanation, the
+> per-browser matrix and the three possible fixes:
+> [docs/demo-login.md](docs/demo-login.md). The proper fix is open as
+> [issue #1](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/1)
+> if you want to take it.
 
 
 
@@ -128,6 +135,7 @@ enterprise-onboarding/
 | [docs/API.md](docs/API.md) | REST endpoints, permissions, payloads |
 | [docs/POWERSHELL.md](docs/POWERSHELL.md) | Script contract, per-script reference, AD attribute conventions |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Production topology, Entra app registration, HTTPS, hardening |
+| [docs/demo-login.md](docs/demo-login.md) | Why the Pages demo login bounces in some browsers, what to do about it, and the three fixes |
 | [SECURITY.md](SECURITY.md) | Reporting a vulnerability, which demo defaults to change before production, least-privilege service accounts |
 | [CHANGELOG.md](CHANGELOG.md) | What changed in each release, and the open issues shaping the next one |
 

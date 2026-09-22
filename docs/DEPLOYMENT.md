@@ -45,9 +45,11 @@ Static frontend on GitHub Pages + free backend on Render, in demo mode:
    `PUBLIC_BASE_PATH=/<repo>` and `PUBLIC_API_BASE` and deploys `dist/`.
 
 Notes: Render's free tier sleeps after ~15 min idle (first request takes
-~30–60 s to wake). Cross-site cookies (`SameSite=None`) are blocked by
-Safari's tracking prevention — use Chrome/Edge/Firefox for the Pages demo, or
-host frontend + API same-origin (Docker/nginx) for full compatibility.
+~30–60 s to wake). Cross-site cookies (`SameSite=None`) are dropped by Safari's
+tracking prevention and by Chrome in Incognito — use a normal Chrome, Edge or
+Firefox window for the Pages demo, or host frontend + API same-origin
+(Docker/nginx) for full compatibility. [demo-login.md](demo-login.md) has the
+per-browser matrix and the three ways to fix it properly.
 
 ## Microsoft Entra ID app registration (sign-in)
 
