@@ -16,6 +16,9 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 
+- `CONTRIBUTING.md`: demo-mode setup, the issues that are good entry points, the
+  four architectural rules a reviewer will otherwise repeat, what a pull request should
+  show, and the standing rule that no directory data ever enters this repository.
 - `SECURITY.md`: private vulnerability reporting, the four demo defaults that must
   change before this touches a real directory, and the least-privilege service
   account model.
