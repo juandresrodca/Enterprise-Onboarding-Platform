@@ -16,6 +16,12 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 
+- `docs/api-pagination.md`: why `GET /api/users` cannot mirror the audit-log
+  `limit`/`offset`/`total` pattern — neither LDAP paged results nor Microsoft Graph
+  `/users` offers an offset or a cheap exact count — and the forward-cursor contract
+  proposed instead, including keyset pagination for the one-process-per-call
+  PowerShell provider
+  ([#5](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/5)).
 - `CONTRIBUTING.md`: demo-mode setup, the issues that are good entry points, the
   four architectural rules a reviewer will otherwise repeat, what a pull request should
   show, and the standing rule that no directory data ever enters this repository.

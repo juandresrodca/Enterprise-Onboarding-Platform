@@ -20,7 +20,7 @@ requests additionally require the `X-CSRF-Token` header mirroring the
 
 | Method & path | Permission | Description |
 |---|---|---|
-| `GET /users?query=&limit=&recent=` | users:read | Search users (name, sam, email, department, title). |
+| `GET /users?query=&limit=&recent=` | users:read | Search users (name, sam, email, department, title). `limit` is a cap, not a page — there is no pagination yet, and [api-pagination.md](api-pagination.md) is the proposed contract for adding it. |
 | `GET /users/{sam}` | users:read | Full detail incl. groups, licenses, shared mailboxes, proxy addresses, extension attributes. |
 | `GET /users/template.csv` | users:bulk | Bulk import CSV template. |
 | `POST /users/validate` | users:read | Body `{users: NewUserSpec[]}` → `{valid, issues[], users[]}` with derived identities. |

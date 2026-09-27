@@ -133,6 +133,7 @@ enterprise-onboarding/
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Local setup, demo mode, prerequisites |
 | [docs/ADMINISTRATOR-GUIDE.md](docs/ADMINISTRATOR-GUIDE.md) | Using every feature, roles, bulk template reference |
 | [docs/API.md](docs/API.md) | REST endpoints, permissions, payloads |
+| [docs/api-pagination.md](docs/api-pagination.md) | Why `GET /api/users` cannot copy the audit-log pagination, and the cursor contract proposed instead |
 | [docs/POWERSHELL.md](docs/POWERSHELL.md) | Script contract, per-script reference, AD attribute conventions |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Production topology, Entra app registration, HTTPS, hardening |
 | [docs/demo-login.md](docs/demo-login.md) | Why the Pages demo login bounces in some browsers, what to do about it, and the three fixes |
