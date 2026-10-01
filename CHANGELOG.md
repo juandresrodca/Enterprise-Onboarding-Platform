@@ -133,6 +133,6 @@ Initial release: the full onboarding platform.
 - **Test suites** — pytest against the FastAPI app in demo mode, and a Pester 5
   suite plus a version-independent smoke test for the `OnboardingCommon` module.
 
-[Unreleased]: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/compare/5fcd96e...HEAD
+[Unreleased]: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/compare/bf73e6d...HEAD
 [0.2.0]: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/compare/e45386d...bf73e6d
 [0.1.0]: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/commits/0877c7c
