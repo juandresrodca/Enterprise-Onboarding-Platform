@@ -16,6 +16,11 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 
+- A check that rejects AI-assistant attribution in commit messages: a
+  `commit-msg` hook in `.githooks/` (enable with
+  `git config core.hooksPath .githooks`) and a *Commit attribution* workflow that
+  scans every commit reachable from each push and pull request. Both share
+  `.github/scripts/check-attribution.sh`.
 - `docs/lab.md`: an afternoon lab — stand up the stack, point it at a tenant,
   onboard a user, roll the user back, reset the tenant — with every command
   copy-pasteable, the expected output for each step, and timings measured from a

@@ -125,6 +125,20 @@ Commits use [Conventional Commits](https://www.conventionalcommits.org/) —
 `feat:`, `fix:`, `docs:`, `ci:`, `refactor:`, `test:`, `chore:` — because
 [`CHANGELOG.md`](CHANGELOG.md) is assembled from them.
 
+Contributors here are people. Use whatever tools you like, but **commit messages
+must not carry AI-assistant attribution** — a `Co-Authored-By:` trailer naming
+Claude or Anthropic, a `Claude-Session:` link, or a "Generated with Claude Code"
+line. The first makes GitHub list the assistant as a contributor. Many assistants
+add these by default, so turn on the hook that rejects them at commit time, once
+per clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+The same check runs on every push and pull request in the *Commit attribution*
+workflow, so a commit that slips past the hook will fail there.
+
 Add an entry to the `[Unreleased]` section of `CHANGELOG.md` for anything a user or
 operator would notice. Internal refactors do not need one.
 

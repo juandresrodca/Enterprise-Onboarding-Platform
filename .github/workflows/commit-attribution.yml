@@ -1,0 +1,22 @@
+# Fails when any commit reachable from the pushed ref or the pull request head
+# carries AI-assistant attribution. Scanning the whole history rather than the
+# pushed range also catches force-pushes, and costs nothing at this size.
+name: Commit attribution
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Reject AI attribution in commit messages
+        run: bash .github/scripts/check-attribution.sh --rev HEAD
