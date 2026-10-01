@@ -123,23 +123,6 @@ npm run dev
 
 You should see `astro … ready in …` and a local URL of `http://localhost:4321/`.
 
-> **If `npm run dev` fails with `Cannot find native binding`**, you have hit a
-> real defect in the committed `frontend/package-lock.json`: it records `rolldown`
-> (pulled in through `@tailwindcss/vite`) without any of rolldown's per-platform
-> binary packages, so a clean install cannot fetch the one your machine needs. It
-> reproduced on Windows 11 from a fresh clone, and is tracked in
-> [#10](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/10).
-> Until the lockfile is regenerated, the workaround is the one npm itself
-> suggests — it rebuilds the lockfile for your platform and takes about a minute:
->
-> ```bash
-> rm -rf node_modules package-lock.json
-> npm install
-> npm run dev
-> ```
->
-> Do not commit the regenerated lockfile in a pull request about something else.
-
 Open `http://localhost:4321/` and sign in with any demo account — `gadmin`,
 `admin`, `hr` or `helpdesk`, all with the password `Demo!Pass123`. They exist
 only in demo mode; [SECURITY.md](../SECURITY.md#out-of-scope) explains why they
