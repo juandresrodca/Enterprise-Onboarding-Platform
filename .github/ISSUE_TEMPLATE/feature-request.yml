@@ -1,0 +1,38 @@
+name: Feature or idea
+description: Something the platform should do that it does not.
+title: "[idea] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This platform has a deliberately narrow remit, and a conversation here beats a rejected pull request. Describe the problem first; the solution can change.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do, and what stops you today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you propose
+    validations:
+      required: true
+
+  - type: textarea
+    id: safety
+    attributes:
+      label: Does it write to the directory?
+      description: If yes, say which job would run it, what it would audit, and which role should be allowed to trigger it. Every write goes through the preview-and-approve gate.
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contributing
+      options:
+        - label: I would like to build this myself.
+          required: false

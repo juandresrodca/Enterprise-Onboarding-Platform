@@ -1,0 +1,87 @@
+name: The lab broke at step N
+description: A command in docs/lab.md did not do what the page says it should.
+title: "[lab] Chapter ?: "
+labels: ["documentation", "bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you — this is the report [docs/lab.md](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/blob/main/docs/lab.md) exists to produce.
+
+        Before you file: chapter 0 has two Windows traps (a too-long clone path, and venv activation under Git Bash), and chapter 1 has a known `npm run dev` failure with its workaround. If your problem is one of those and the workaround did not help, file it anyway and say so.
+
+        **Never paste directory data.** No real usernames, UPNs, SIDs, group names, distinguished names or tenant IDs. If you were on chapter 2B against a real test tenant, send counts and structure instead.
+
+  - type: dropdown
+    id: chapter
+    attributes:
+      label: Chapter
+      options:
+        - 0 · Prerequisites
+        - 1 · Stand up the stack
+        - 2A · The fictional tenant
+        - 2B · A real test tenant
+        - 3 · Onboard a user
+        - 4 · Roll it back
+        - 5 · Clean up
+    validations:
+      required: true
+
+  - type: dropdown
+    id: route
+    attributes:
+      label: Which route were you following?
+      options:
+        - The copy-paste commands
+        - In the browser
+    validations:
+      required: true
+
+  - type: textarea
+    id: command
+    attributes:
+      label: The command or click that failed
+      description: Paste it exactly as you ran it. If you changed anything from the page, say what.
+      render: bash
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What the page said you should see
+      description: Copy the "You should see …" line for that step.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What you saw instead
+      description: The full output or error, verbatim. Redact anything that identifies a real directory.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Paste the output of these from the terminal where it failed.
+      value: |
+        OS and shell:
+        $PY --version:
+        node --version:
+        git log -1 --oneline:
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: This report contains no real directory data.
+          required: true
+        - label: I ran every earlier step of the lab, in order, in this clone.
+          required: false

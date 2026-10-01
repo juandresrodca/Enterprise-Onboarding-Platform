@@ -130,8 +130,9 @@ four that matter most are not buried in it.
   layers. Decide where it goes, who can read it, and how long you keep it; it
   records who provisioned whom.
 - **Test the offboarding path in a lab first.** It disables accounts, revokes
-  licences, strips group memberships and randomises passwords. `docs/` walks
-  through a dry run, and issue
+  licences, strips group memberships and randomises passwords.
+  [`docs/lab.md`](docs/lab.md) chapter 4 walks through one against the fictional
+  tenant, and issue
   [#3](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/3)
   tracks validating the module against a real hybrid lab.
 

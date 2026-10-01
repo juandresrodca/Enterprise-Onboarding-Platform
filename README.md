@@ -2,10 +2,18 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-A production-grade platform for onboarding one or many users into **Active
-Directory / Microsoft Entra ID** environments (hybrid, Exchange Online,
-Microsoft 365) from a web interface — with validation, preview/approval,
-live execution progress and  a full audit  trail.
+**Stand up an end-to-end Active Directory / Entra ID onboarding pipeline in an
+afternoon — validate, preview, provision, audit and roll back a new hire —
+against a fictional tenant, with no directory required.**
+→ [Start the lab](docs/lab.md)
+
+A web platform for onboarding one or many users into **Active Directory /
+Microsoft Entra ID** environments (hybrid, Exchange Online, Microsoft 365) —
+with validation, preview/approval, live execution progress and a full audit
+trail. Its production provider drives PowerShell 7 against real directories;
+that layer passes its contract tests but has not yet been run against a real
+domain controller
+([#3](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/3)).
 
 ```
 Astro + Tailwind + TypeScript          FastAPI (async, Pydantic)        PowerShell 7+
@@ -129,6 +137,7 @@ enterprise-onboarding/
 
 | Document | Contents |
 |---|---|
+| [docs/lab.md](docs/lab.md) | The afternoon lab: stand up the stack, onboard a user, roll it back, reset the tenant — every command copy-pasteable, with measured timings |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design, diagrams, provider abstraction, job engine, security model |
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Local setup, demo mode, prerequisites |
 | [docs/ADMINISTRATOR-GUIDE.md](docs/ADMINISTRATOR-GUIDE.md) | Using every feature, roles, bulk template reference |

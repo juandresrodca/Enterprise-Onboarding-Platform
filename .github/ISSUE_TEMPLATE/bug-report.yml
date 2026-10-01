@@ -1,0 +1,79 @@
+name: Bug report
+description: The platform did something it should not, outside the lab.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Security problems do not go here.** Use the private route in [SECURITY.md](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/blob/main/SECURITY.md) instead.
+
+        **Never paste directory data** — no real usernames, UPNs, SIDs, group names, distinguished names or tenant IDs. Reproduce in demo mode where you can; [CONTRIBUTING.md](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/blob/main/CONTRIBUTING.md#never-put-directory-data-in-this-repository) explains why.
+
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Which layer?
+      options:
+        - API (backend/)
+        - Web UI (frontend/)
+        - PowerShell module or scripts (powershell/)
+        - Deployment (Docker, GitHub Pages, Render)
+        - Documentation
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Where did it happen?
+      options:
+        - Demo mode, locally
+        - The hosted GitHub Pages demo
+        - My own lab against a real test directory
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: From a fresh sign-in, as a numbered list. Name the demo account you used.
+      placeholder: |
+        1. Sign in as `admin`
+        2. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead
+      description: Include the response body or the job log if there is one, redacted.
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: commit
+    attributes:
+      label: Commit
+      description: Output of `git log -1 --oneline`, or "hosted demo".
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: This report contains no real directory data.
+          required: true

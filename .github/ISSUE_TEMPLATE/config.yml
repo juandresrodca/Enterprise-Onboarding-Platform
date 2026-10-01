@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/security/advisories/new
+    about: Privately, never as a public issue. SECURITY.md explains what is in scope.
+  - name: The hosted demo sends me back to the login screen
+    url: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/blob/main/docs/demo-login.md
+    about: A known cross-site cookie limitation of the GitHub Pages demo, with a thirty-second workaround.

@@ -16,6 +16,24 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 
+- `docs/lab.md`: an afternoon lab — stand up the stack, point it at a tenant,
+  onboard a user, roll the user back, reset the tenant — with every command
+  copy-pasteable, the expected output for each step, and timings measured from a
+  fresh clone. It completes in demo mode with no directory at all, and states its
+  non-goal: it is not a production deployment guide.
+- Issue templates under `.github/ISSUE_TEMPLATE/`, including one shaped for
+  "the lab broke at step N", plus links that route security reports and the
+  hosted-demo login bounce away from public issues.
+
+### Changed
+
+- The README now opens with the lab's bounded promise, and no longer describes
+  the platform as production-grade while its PowerShell layer is unvalidated
+  against a real domain controller
+  ([#3](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/3)).
+- `SECURITY.md` pointed at a dry run of the offboarding path in `docs/` that did
+  not exist; it now links chapter 4 of the lab, which is that dry run.
+
 - `docs/api-pagination.md`: why `GET /api/users` cannot mirror the audit-log
   `limit`/`offset`/`total` pattern — neither LDAP paged results nor Microsoft Graph
   `/users` offers an offset or a cheap exact count — and the forward-cursor contract
@@ -34,6 +52,10 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 The open issues that shape the next release, in the order they hurt a new user:
 
+- A fresh clone's frontend fails `npm run dev` with `Cannot find native binding`,
+  because `frontend/package-lock.json` lacks rolldown's per-platform packages
+  ([#10](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/10)).
+  The workaround is in `docs/lab.md`, chapter 1.
 - Chrome blocks the GitHub Pages demo login, because the session cookie is
   cross-site and third-party cookies are now off by default
   ([#1](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/1)).
