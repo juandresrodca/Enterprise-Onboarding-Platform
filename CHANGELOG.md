@@ -14,6 +14,8 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+- Fixed missing rolldown platform packages in lockfile (#10) 
+
 ### Added
 
 - A check that rejects AI-assistant attribution in commit messages: a
