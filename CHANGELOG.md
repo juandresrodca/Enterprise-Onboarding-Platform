@@ -145,3 +145,7 @@ Initial release: the full onboarding platform.
 [Unreleased]: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/compare/bf73e6d...HEAD
 [0.2.0]: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/compare/e45386d...bf73e6d
 [0.1.0]: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/commits/0877c7c
+- Setup and test instructions now call the virtual environment's interpreter
+  directly in Git Bash and POSIX shells, rather than executing an activation
+  script in a child process or assuming Windows-only paths
+  ([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).

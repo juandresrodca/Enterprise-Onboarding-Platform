@@ -23,9 +23,10 @@ cd Enterprise-Onboarding-Platform
 # Backend
 cd backend
 python -m venv .venv
-.venv/Scripts/activate          # Windows;  source .venv/bin/activate on Linux/macOS
-pip install -r requirements-dev.txt
-uvicorn app.main:app --port 8000
+VPY="$PWD/.venv/bin/python"
+[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
+"$VPY" -m pip install -r requirements-dev.txt
+"$VPY" -m uvicorn app.main:app --port 8000
 
 # Frontend, second terminal
 cd frontend
@@ -81,7 +82,10 @@ pull request stalls:
 ## Tests
 
 ```bash
-cd backend && python -m pytest -q                        # 42 API/unit/integration tests
+cd backend
+VPY="$PWD/.venv/bin/python"
+[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
+"$VPY" -m pytest -q                                      # API/unit/integration tests
 powershell -File powershell/tests/Invoke-SmokeTest.ps1   # module contract, no Pester needed
 Invoke-Pester powershell/tests                           # Pester 5 suite
 ```
