@@ -139,6 +139,13 @@ git config core.hooksPath .githooks
 The same check runs on every push and pull request in the *Commit attribution*
 workflow, so a commit that slips past the hook will fail there.
 
+You do not need to set `core.autocrlf`:
+[`.gitattributes`](.gitattributes) decides what git stores, whatever your editor
+writes. Everything is stored LF; `.ps1`, `.psm1` and `.psd1` are checked out CRLF
+because they are run from a Windows host, and the shell scripts — including the
+hook above — stay LF because they run under `bash`. If a diff ever shows every
+file as changed with nothing actually changed, that file is what prevents it.
+
 Add an entry to the `[Unreleased]` section of `CHANGELOG.md` for anything a user or
 operator would notice. Internal refactors do not need one.
 

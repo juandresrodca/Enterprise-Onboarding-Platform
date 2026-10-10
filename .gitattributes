@@ -1,0 +1,59 @@
+# Normalise line endings: LF in the repo, LF in the working tree.
+#
+# Without this file, normalisation is left to whatever each clone has in
+# core.autocrlf, which is how every tracked text file once showed up as
+# modified in a 1,341-line diff with nothing actually changed (#12). Only
+# extensions that are really tracked are declared below — run
+# `git ls-files` before adding to it.
+* text=auto eol=lf
+
+# Shell: LF is not a preference here, it is a requirement. .githooks/commit-msg
+# is enabled per clone with `git config core.hooksPath .githooks`, and
+# .github/scripts/check-attribution.sh runs on ubuntu-latest. A CRLF copy of
+# either fails with `bad interpreter: /usr/bin/env bash^M`, and the
+# commit-attribution guard rail stops guarding.
+*.sh        text eol=lf
+.githooks/* text eol=lf
+
+# Backend — read by python and pip inside the Linux container.
+*.py                text eol=lf
+*.ini               text eol=lf
+requirements.txt    text eol=lf
+requirements-dev.txt text eol=lf
+.env.example        text eol=lf
+
+# Frontend — Astro build, run on Linux in CI.
+*.astro text eol=lf
+*.ts    text eol=lf
+*.mjs   text eol=lf
+*.json  text eol=lf
+*.css   text eol=lf
+
+# CI definitions and issue forms, parsed by GitHub on Linux.
+*.yml  text eol=lf
+*.yaml text eol=lf
+
+# Container and reverse-proxy definitions, consumed on Linux.
+*.Dockerfile text eol=lf
+*.conf       text eol=lf
+
+# Documentation and governance.
+*.md text eol=lf
+
+# PowerShell: CRLF in the working tree, as in AdminForge. These scripts drive
+# Active Directory and Entra from a Windows host and are opened in the ISE and
+# in Windows PowerShell 5.1; nothing in CI runs pwsh, so there is no Linux
+# consumer to keep them LF for. The repo still stores them as LF.
+*.ps1  text eol=crlf
+*.psm1 text eol=crlf
+*.psd1 text eol=crlf
+
+# Binaries — explicit, so nothing depends on git's content sniffing. None are
+# tracked today; these are here so a screenshot or a capture dropped into docs/
+# later is never line-ending normalised.
+*.png   binary
+*.jpg   binary
+*.gif   binary
+*.ico   binary
+*.woff2 binary
+*.mp4   binary

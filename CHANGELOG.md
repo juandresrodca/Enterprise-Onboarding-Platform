@@ -26,6 +26,13 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   copy-pasteable, the expected output for each step, and timings measured from a
   fresh clone. It completes in demo mode with no directory at all, and states its
   non-goal: it is not a production deployment guide.
+- `.gitattributes`: line endings are now normalised by the repository rather than by
+  whatever each clone has in `core.autocrlf`. Everything is stored LF; `.ps1`,
+  `.psm1` and `.psd1` are checked out CRLF for the Windows host that runs them, and
+  the shell scripts — `.githooks/commit-msg` and
+  `.github/scripts/check-attribution.sh`, both of which run under `bash` — are
+  pinned LF so a CRLF copy can never silence the attribution guard rail
+  ([#12](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/12)).
 - Issue templates under `.github/ISSUE_TEMPLATE/`, including one shaped for
   "the lab broke at step N", plus links that route security reports and the
   hosted-demo login bounce away from public issues.
