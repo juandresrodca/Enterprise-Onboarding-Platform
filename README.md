@@ -74,9 +74,11 @@ provider interface used in production.
 ```bash
 # Backend (Python 3.11+)
 cd backend
-python -m venv .venv && .venv/Scripts/activate       # Windows
-pip install -r requirements-dev.txt
-uvicorn app.main:app --port 8000
+python -m venv .venv
+VPY="$PWD/.venv/bin/python"
+[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
+"$VPY" -m pip install -r requirements-dev.txt
+"$VPY" -m uvicorn app.main:app --port 8000
 
 # Frontend (Node 20+), second terminal
 cd frontend
@@ -116,7 +118,10 @@ mailbox.
 ## Tests
 
 ```bash
-cd backend && .venv/Scripts/python -m pytest          # 42 API/unit/integration tests
+cd backend
+VPY="$PWD/.venv/bin/python"
+[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
+"$VPY" -m pytest                                     # API/unit/integration tests
 powershell -File powershell/tests/Invoke-SmokeTest.ps1 # module contract smoke test
 Invoke-Pester powershell/tests                         # Pester 5 suite
 ```

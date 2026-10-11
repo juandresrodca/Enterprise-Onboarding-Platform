@@ -99,11 +99,11 @@ VPY="$PWD/backend/.venv/bin/python"
 "$VPY" -m pip install -r backend/requirements.txt
 ```
 
-> Why not `source .venv/Scripts/activate`? Because under Git Bash, with
-> Python 3.11.1 at least, that script puts a `C:\…` path into `PATH`, bash splits
-> it at the colon, and `python` and `pip` quietly resolve to whichever *other*
-> Python is installed. The packages land in the wrong place and nothing says so.
-> Calling `$VPY` directly cannot go wrong that way.
+> Why use the interpreter directly? Running `.venv/Scripts/activate` as a command
+> does not activate the environment in the current shell. Activation requires
+> `source .venv/Scripts/activate` in Git Bash, or `source .venv/bin/activate` on
+> Linux/macOS. Calling `"$VPY"` directly avoids depending on activation or on
+> whichever `python` and `pip` happen to be on `PATH`.
 
 Start the backend and leave this terminal running:
 
