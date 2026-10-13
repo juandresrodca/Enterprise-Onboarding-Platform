@@ -23,9 +23,12 @@ cd Enterprise-Onboarding-Platform
 # Backend
 cd backend
 python -m venv .venv
-.venv/Scripts/activate          # Windows;  source .venv/bin/activate on Linux/macOS
-pip install -r requirements-dev.txt
-uvicorn app.main:app --port 8000
+
+# The environment's own interpreter, by path — no activation, every platform
+VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
+
+"$VPY" -m pip install -r requirements-dev.txt
+"$VPY" -m uvicorn app.main:app --port 8000
 
 # Frontend, second terminal
 cd frontend
@@ -36,6 +39,14 @@ npm run dev                     # http://localhost:4321
 Sign in as `gadmin` and you are looking at **Northwind Dynamics**: 23 users, 19 groups,
 5 licence SKUs, an OU tree and shared mailboxes, all served by `MockProvider`. Every
 feature works against it — create, clone, bulk import, offboard, jobs, audit, exports.
+
+Activating the environment instead would need a different line per shell, and the
+one these docs used to carry — `.venv/Scripts/activate`, without `source` — did
+nothing at all: it ran in a child process whose environment died with it
+([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).
+Calling the interpreter by path is the same command everywhere. If you would rather
+work in an activated shell, `source .venv/bin/activate` on Linux or macOS and
+`.venv\Scripts\Activate.ps1` in PowerShell both do it properly.
 
 `backend/.env.example` lists the settings; you do not need to copy it for demo mode.
 [`docs/INSTALLATION.md`](docs/INSTALLATION.md) has the longer version, including Docker.

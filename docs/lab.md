@@ -99,11 +99,20 @@ VPY="$PWD/backend/.venv/bin/python"
 "$VPY" -m pip install -r backend/requirements.txt
 ```
 
-> Why not `source .venv/Scripts/activate`? Because under Git Bash, with
-> Python 3.11.1 at least, that script puts a `C:\…` path into `PATH`, bash splits
-> it at the colon, and `python` and `pip` quietly resolve to whichever *other*
-> Python is installed. The packages land in the wrong place and nothing says so.
-> Calling `$VPY` directly cannot go wrong that way.
+> Why not activate the environment? Because the failure that reliably reproduces is
+> an activation that never happened. `.venv/Scripts/activate` run as a *command*,
+> without `source`, executes in a child process; that process sets `VIRTUAL_ENV` and
+> rewrites `PATH` for itself and then exits, taking both with it. The shell you are
+> still sitting in is unchanged, so `python` and `pip` resolve to whichever
+> interpreter was first on `PATH` all along, and the packages land there. On a host
+> whose default Python is 3.9 that is not the 3.11 the backend needs, and nothing
+> says so. This is what [#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)
+> was filed for; the three setup guides carried the same line.
+>
+> `source .venv/bin/activate` (or `.venv\Scripts\Activate.ps1` in PowerShell) does
+> work, but it is a different line per shell and the wrong one fails silently.
+> Calling `$VPY` directly cannot go wrong that way, which is why this lab uses it
+> throughout.
 
 Start the backend and leave this terminal running:
 

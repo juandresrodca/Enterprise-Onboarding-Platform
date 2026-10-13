@@ -74,15 +74,32 @@ provider interface used in production.
 ```bash
 # Backend (Python 3.11+)
 cd backend
-python -m venv .venv && .venv/Scripts/activate       # Windows
-pip install -r requirements-dev.txt
-uvicorn app.main:app --port 8000
+python -m venv .venv
+
+# Call the environment's own interpreter by path — no activation, every platform
+VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
+
+"$VPY" -m pip install -r requirements-dev.txt
+"$VPY" -m uvicorn app.main:app --port 8000
 
 # Frontend (Node 20+), second terminal
 cd frontend
 npm install
 npm run dev                                           # http://localhost:4321
 ```
+
+> [!NOTE]
+> **Why the `VPY` line instead of `activate`?** Run as a command rather than with
+> `source`, the activate script executes in a child process and its environment
+> changes vanish when that process exits — so the next `pip install` goes to
+> whichever `python` is first on `PATH`, which on a machine defaulting to 3.9 is
+> the wrong one, silently
+> ([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).
+> Calling the interpreter by path cannot go wrong that way and needs no per-shell
+> variant. In PowerShell, activate with `.venv\Scripts\Activate.ps1` if you prefer
+> an activated shell; `.venv\Scripts\python.exe -m pip …` works there too.
+> [`docs/lab.md`](docs/lab.md) uses the same convention throughout.
+
 > [!IMPORTANT]
 > **If the live demo sends you back to the login screen**, the browser dropped the
 > session cookie: the Pages frontend and the Render API are on different origins,
@@ -116,7 +133,10 @@ mailbox.
 ## Tests
 
 ```bash
-cd backend && .venv/Scripts/python -m pytest          # 42 API/unit/integration tests
+cd backend
+VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
+
+"$VPY" -m pytest                                       # 42 API/unit/integration tests
 powershell -File powershell/tests/Invoke-SmokeTest.ps1 # module contract smoke test
 Invoke-Pester powershell/tests                         # Pester 5 suite
 ```

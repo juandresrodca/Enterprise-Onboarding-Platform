@@ -20,10 +20,13 @@ git clone <repo> && cd enterprise-onboarding
 # 1. Backend
 cd backend
 python -m venv .venv
-.venv/Scripts/activate                # Windows  (Linux/macOS: source .venv/bin/activate)
-pip install -r requirements-dev.txt
-copy .env.example .env                # optional; demo works with defaults
-uvicorn app.main:app --reload --port 8000
+
+# The environment's own interpreter, by path — no activation, every platform
+VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
+
+"$VPY" -m pip install -r requirements-dev.txt
+cp .env.example .env                  # optional; demo works with defaults
+"$VPY" -m uvicorn app.main:app --reload --port 8000
 
 # 2. Frontend (new terminal)
 cd frontend
@@ -34,6 +37,18 @@ npm run dev
 Open **http://localhost:4321** and sign in with a demo account
 (`gadmin` / `Demo!Pass123`). The Astro dev server proxies `/api` to
 `127.0.0.1:8000`, so cookies remain same-origin.
+
+> [!NOTE]
+> The `VPY` line replaces activating the environment. `.venv/Scripts/activate` run
+> as a command — which is what this guide used to say — executes in a child process
+> and its environment changes are gone the moment it exits, so the `pip install`
+> that follows installs into whichever `python` is first on `PATH`
+> ([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).
+> On a host whose default Python is 3.9 the dependencies land in the system
+> interpreter and nothing points at the cause. Calling the interpreter by path is
+> one line on every platform. To activate properly instead, use
+> `source .venv/bin/activate` on Linux or macOS, or `.venv\Scripts\Activate.ps1`
+> in PowerShell.
 
 ### Resetting the demo tenant
 
@@ -51,7 +66,10 @@ docker compose up --build
 ## Verifying the installation
 
 ```bash
-cd backend && python -m pytest                              # 34 tests green
+cd backend
+VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
+
+"$VPY" -m pytest                                            # 42 tests green
 curl http://localhost:8000/api/health                       # {"status":"ok",...}
 powershell -File powershell/tests/Invoke-SmokeTest.ps1      # module contract
 ```

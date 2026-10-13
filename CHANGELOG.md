@@ -61,6 +61,23 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Fixed
 
+- The setup instructions no longer tell you to activate the backend's virtual
+  environment with a line that does not activate it. `README.md`, `CONTRIBUTING.md`
+  and `docs/INSTALLATION.md` all carried `.venv/Scripts/activate` as a bare command:
+  without `source` it runs in a child process, so `VIRTUAL_ENV` and `PATH` are
+  restored the moment it exits and the following `pip install` installs into
+  whichever `python` is first on `PATH` — the system 3.9 rather than the 3.11 the
+  backend needs, with nothing to say so. All three now call the environment's own
+  interpreter by path, the convention `docs/lab.md` already used, which is one
+  identical line on every platform; the proper per-shell activations are given
+  alongside it for anyone who prefers an activated shell
+  ([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).
+- `docs/INSTALLATION.md` said the backend suite is 34 tests; it is 42, as
+  `README.md` and `CONTRIBUTING.md` already said.
+- `docs/INSTALLATION.md`'s demo-setup block used `copy .env.example .env`, which is
+  `cmd.exe` syntax and fails with `copy: command not found` in the same bash shell
+  the rest of the block is written for. It is now `cp`.
+
 - A fresh clone's frontend no longer fails `npm run dev` with
   `Cannot find native binding`: `frontend/package-lock.json` is regenerated with
   rolldown's per-platform packages, and the workaround is gone from `docs/lab.md`
