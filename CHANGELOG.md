@@ -72,6 +72,14 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   identical line on every platform; the proper per-shell activations are given
   alongside it for anyone who prefers an activated shell
   ([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).
+- The two blocks that run the test suites call the environment's interpreter too.
+  `CONTRIBUTING.md`'s *Tests* section and `docs/DEVELOPER-GUIDE.md`'s *Testing* section
+  were not part of the #14 rewrite and still ran a bare `python -m pytest`, so following
+  `CONTRIBUTING.md` top to bottom installed `pytest` into `.venv` and then tested against
+  whichever interpreter was first on `PATH`, failing with `No module named pytest`. Both
+  now carry the same `VPY` line as the setup blocks, repeated rather than set once because
+  a *Tests* section is a place people open a fresh terminal for
+  ([#16](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/16)).
 - `docs/INSTALLATION.md` said the backend suite is 34 tests; it is 42, as
   `README.md` and `CONTRIBUTING.md` already said.
 - `docs/INSTALLATION.md`'s demo-setup block used `copy .env.example .env`, which is

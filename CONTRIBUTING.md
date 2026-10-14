@@ -92,10 +92,23 @@ pull request stalls:
 ## Tests
 
 ```bash
-cd backend && python -m pytest -q                        # 42 API/unit/integration tests
+cd backend
+
+# The environment's own interpreter, by path — no activation, every platform
+VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
+
+"$VPY" -m pytest -q                                      # 42 API/unit/integration tests
 powershell -File powershell/tests/Invoke-SmokeTest.ps1   # module contract, no Pester needed
 Invoke-Pester powershell/tests                           # Pester 5 suite
 ```
+
+The `VPY` line is repeated from the setup block on purpose. This is a section people
+jump straight to in a fresh terminal, and a bare `python` there would run the suite
+against whichever interpreter is first on `PATH` rather than the one the setup block
+installed `pytest` into — the same mismatch as
+[#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14), with
+`No module named pytest` as the symptom
+([#16](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/16)).
 
 The pytest suite runs entirely in demo mode with isolated temporary storage per test
 (`backend/tests/conftest.py` points `EIO_DATA_DIR` and `EIO_LOGS_DIR` at `tmp_path`), so
