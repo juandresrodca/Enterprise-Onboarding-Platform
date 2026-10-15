@@ -169,6 +169,7 @@ enterprise-onboarding/
 | [SECURITY.md](SECURITY.md) | Reporting a vulnerability, which demo defaults to change before production, least-privilege service accounts |
 | [CHANGELOG.md](CHANGELOG.md) | What changed in each release, and the open issues shaping the next one |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Demo-mode setup, which issues are good entry points, what a pull request should show, and the rule about never committing directory data |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Contributor Covenant 2.1: the standards participation is held to, how to report a problem, and what follows a report |
 
 ## License
 

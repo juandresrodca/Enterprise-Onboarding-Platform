@@ -16,6 +16,13 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 
+- `CODE_OF_CONDUCT.md`: the Contributor Covenant 2.1, with the enforcement
+  address and the enforcement ladder, matching the other repositories in this
+  account. It draws the line explicitly between a conduct report and directory
+  data that reaches the repository by accident — the latter goes through
+  `SECURITY.md`, privately, and is removed. Linked from `CONTRIBUTING.md` and
+  the README documentation table. This was the last unmet item on GitHub's
+  community-standards checklist for the repository.
 - A check that rejects AI-assistant attribution in commit messages: a
   `commit-msg` hook in `.githooks/` (enable with
   `git config core.hooksPath .githooks`) and a *Commit attribution* workflow that

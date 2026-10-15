@@ -199,7 +199,12 @@ before this platform touches a real directory.
 Be straightforward and be kind. Assume the person on the other side of the review is
 trying to make the same thing work as you are. Harassment of any kind, or any behaviour
 that would make a colleague uncomfortable in a professional setting, is not welcome.
-Report a problem to **juandresrodca@gmail.com**.
+
+Participation is governed by the [Code of Conduct](CODE_OF_CONDUCT.md), which is the
+Contributor Covenant 2.1 and sets out what is reported, to whom, and what follows.
+Report a problem to **juandresrodca@gmail.com**. Directory data that lands in the
+repository by accident is a [`SECURITY.md`](SECURITY.md) matter rather than a conduct
+one — report it privately and it is removed.
 
 ## Licence
 
