@@ -16,6 +16,18 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 
+- `.github/pull_request_template.md`: a pull request template derived from this
+  repository's own rules rather than from a generic one. It follows the order a
+  submission is read in — what changed and which layer, what you ran with the
+  output pasted, what you clicked through in demo mode, the write-path questions
+  from `docs/DEVELOPER-GUIDE.md` — and makes the "no directory data" rule an
+  explicit tick that covers screenshots and log excerpts as well as code, with
+  `SECURITY.md`'s private route for anything that has already leaked. It states at
+  the top that the only check running on a pull request is *Commit attribution*,
+  which reads commit messages and not code, so no tick here means a machine
+  verified anything. Linked from `CONTRIBUTING.md`. This was the last flagship
+  repository in this account without a template.
+
 - `CODE_OF_CONDUCT.md`: the Contributor Covenant 2.1, with the enforcement
   address and the enforcement ladder, matching the other repositories in this
   account. It draws the line explicitly between a conduct report and directory

@@ -145,6 +145,14 @@ Branch from `main`, keep the branch to one concern, and in the description say:
 3. **Whether it touches a write path.** If the answer is yes, say which job, which audit
    entry it produces, and which permission gates it.
 
+GitHub fills the description from
+[`.github/pull_request_template.md`](.github/pull_request_template.md), which asks for
+those three in that order and adds the directory-data declaration from
+[below](#never-put-directory-data-in-this-repository). Most of it is deletable — a
+documentation-only change needs the first section and nothing else. It is a checklist
+for a person, not for a machine: the only workflow that runs on a pull request here is
+*Commit attribution*, and it reads commit messages rather than code.
+
 Commits use [Conventional Commits](https://www.conventionalcommits.org/) —
 `feat:`, `fix:`, `docs:`, `ci:`, `refactor:`, `test:`, `chore:` — because
 [`CHANGELOG.md`](CHANGELOG.md) is assembled from them.
