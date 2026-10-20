@@ -120,10 +120,20 @@ typed error codes, structured logging and AD serialisation. They do not need AD 
 
 Two honest gaps, in case you were looking for something to do:
 
-- **There is no CI.** Both suites exist and neither runs automatically — that is
-  [#2](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/2).
-- **The frontend has no tests.** `npm run build` is the only gate, and it catches
-  TypeScript errors rather than behaviour.
+- **Nothing runs the tests.** Two workflows do run on a pull request and neither is a
+  test gate. *Commit attribution*
+  ([`.github/workflows/commit-attribution.yml`](.github/workflows/commit-attribution.yml))
+  fires on every push and every pull request, calls
+  [`.github/scripts/check-attribution.sh`](.github/scripts/check-attribution.sh) over
+  every commit reachable from the ref, and fails on AI-assistant trailers — it reads
+  commit messages and never looks at the code. *Deploy frontend to GitHub Pages*
+  ([`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)) fires only
+  on pushes to `main` that touch `frontend/**`, and is a deployment rather than a gate.
+  Nothing executes `pytest`, `Invoke-Pester` or `npm run build` — that is
+  [#2](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/2), and it
+  is why a green tick here means a person ran something and said so.
+- **The frontend has no tests.** `npm run build`, run by hand, is the only check there
+  is, and it catches TypeScript errors rather than behaviour.
 
 ### What is deliberately not tested here
 
