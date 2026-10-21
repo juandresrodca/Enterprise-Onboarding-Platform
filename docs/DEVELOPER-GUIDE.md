@@ -74,6 +74,11 @@ suite runs against any provider that honors the interface semantics.
   `.card`, `.input`, `.badge-*`); single accent palette; dark mode via
   `.dark` class; `prefers-reduced-motion` kill-switch; only
   transform/opacity are animated.
+- Whitespace: [`.editorconfig`](../.editorconfig) at the repository root —
+  four spaces for Python, PowerShell and the `.conf` files, two for Astro,
+  TypeScript, JSON, YAML and shell. Note that PowerShell is checked out CRLF
+  there and in [`.gitattributes`](../.gitattributes); the two have to agree or
+  every save produces a diff.
 
 ## Testing
 
