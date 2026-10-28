@@ -4,6 +4,6 @@ pydantic>=2.8
 pydantic-settings>=2.4
 python-multipart>=0.0.9
 PyJWT>=2.9
-msal>=1.31
+msal>=1.39.0
 openpyxl>=3.1
 fpdf2>=2.7
