@@ -16,6 +16,19 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 
+- `.github/dependabot.yml`: dependency updates are now watched by the repository
+  rather than noticed by hand. Four ecosystems, which is every one this tree has:
+  `pip` at `/backend` for `requirements.txt` and `requirements-dev.txt`, `npm` at
+  `/frontend`, `docker` at `/docker` for the two Dockerfiles that pin
+  `python:3.12-slim`, `node:22-alpine` and `nginx:1.27-alpine`, and
+  `github-actions` at `/` for *Deploy Pages* and *Commit attribution*. The two
+  application ecosystems run weekly with their minor and patch bumps grouped into
+  one pull request; images and actions run monthly, following `AdminForge`. The
+  frontend half is the one that reaches a user: `deploy-pages.yml` publishes that
+  tree to the hosted demo, so an unreviewed transitive bump ships. There is no
+  `docker` entry at the root because `docker-compose.yml` only builds the two
+  Dockerfiles and pins no image of its own, so a second entry would watch nothing.
+
 - `.github/pull_request_template.md`: a pull request template derived from this
   repository's own rules rather than from a generic one. It follows the order a
   submission is read in — what changed and which layer, what you ran with the
