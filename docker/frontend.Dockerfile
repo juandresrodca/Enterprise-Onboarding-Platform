@@ -1,7 +1,7 @@
 # Frontend image: static Astro build served by nginx, which also proxies /api
 # to the backend so session cookies stay same-origin.
 
-FROM node:22-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /build
 COPY frontend/package.json frontend/package-lock.json* ./
 RUN npm install --no-fund --no-audit
