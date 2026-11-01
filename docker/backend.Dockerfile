@@ -7,7 +7,7 @@
 # execution host is Windows; otherwise run the backend directly on a Windows
 # member server. This image is fully sufficient for demo and evaluation.
 
-FROM python:3.12-slim AS base
+FROM python:3.15-slim AS base
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
