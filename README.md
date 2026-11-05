@@ -160,6 +160,7 @@ enterprise-onboarding/
 | [docs/lab.md](docs/lab.md) | The afternoon lab: stand up the stack, onboard a user, roll it back, reset the tenant; every command copy-pasteable, with measured timings |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design, diagrams, provider abstraction, job engine, security model |
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Local setup, demo mode, prerequisites |
+| [docs/DEVELOPER-GUIDE.md](docs/DEVELOPER-GUIDE.md) | Code layout, the principles in force, common tasks, naming and commit conventions, how to run the tests |
 | [docs/ADMINISTRATOR-GUIDE.md](docs/ADMINISTRATOR-GUIDE.md) | Using every feature, roles, bulk template reference |
 | [docs/API.md](docs/API.md) | REST endpoints, permissions, payloads |
 | [docs/api-pagination.md](docs/api-pagination.md) | Why `GET /api/users` cannot copy the audit-log pagination, and the cursor contract proposed instead |
