@@ -108,6 +108,7 @@ A public issue about it spreads it further.
 
 - [ ] A line under **[Unreleased]** in [`CHANGELOG.md`](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/blob/main/CHANGELOG.md) for anything a user or operator would notice — internal refactors do not need one
 - [ ] Any new command block calls the interpreter by path (the `VPY` line above), not a bare `python` — [#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14) and [#16](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/16) are both that drifting
+- [ ] A page added, renamed or removed under `docs/` is reflected in the **Documentation** table in [`README.md`](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/blob/main/README.md), with a *Contents* cell that says what the page is for. The table is the only index of `docs/`, so this applies to a documentation-only change as much as to a feature that ships a page
 - [ ] Conventional Commit subjects in the imperative — `CHANGELOG.md` is assembled from them
 - [ ] No AI-assistant attribution in any commit message. Turn on the hook once per clone with `git config core.hooksPath .githooks`; the *Commit attribution* workflow fails the pull request otherwise
 - [ ] The branch is one concern
