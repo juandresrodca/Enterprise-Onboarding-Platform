@@ -155,6 +155,13 @@ Branch from `main`, keep the branch to one concern, and in the description say:
 3. **Whether it touches a write path.** If the answer is yes, say which job, which audit
    entry it produces, and which permission gates it.
 
+A page added, renamed or removed under `docs/` also needs a row in the **Documentation**
+table in [`README.md`](README.md#documentation), with a *Contents* cell saying what the
+page is for. That table is the only index of `docs/`, so a page missing from it is a page
+nobody finds, and a renamed or deleted page leaves the table pointing at something that
+is no longer there. It applies to a documentation-only change as much as to a feature
+that ships a page.
+
 GitHub fills the description from
 [`.github/pull_request_template.md`](.github/pull_request_template.md), which asks for
 those three in that order and adds the directory-data declaration from
