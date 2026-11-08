@@ -165,8 +165,12 @@ that ships a page.
 GitHub fills the description from
 [`.github/pull_request_template.md`](.github/pull_request_template.md), which asks for
 those three in that order and adds the directory-data declaration from
-[below](#never-put-directory-data-in-this-repository). Most of it is deletable — a
-documentation-only change needs the first section and nothing else. It is a checklist
+[below](#never-put-directory-data-in-this-repository). Most of it is deletable, but not
+all of it: a documentation-only change keeps **What this changes**, the **No directory
+data** declaration and **Everything**. The declaration says itself that it is not
+deletable, and **Everything** carries the box that binds a page added, renamed or
+removed under `docs/` to the README table, for a documentation-only change as much as
+for a feature. Every other section opens with its own delete comment. It is a checklist
 for a person, not for a machine: the only workflow that runs on a pull request here is
 *Commit attribution*, and it reads commit messages rather than code.
 

@@ -10,8 +10,13 @@ Three things worth knowing before you read the checklists:
    [#2](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/2).
    So a green tick below means **a person ran something and is saying so**, which
    is why the sections ask you to paste output rather than to describe it.
-2. **Most of this template is deletable.** A typo fix, a broken link or a doc that
-   got clearer needs **What this changes** and nothing else. Delete the rest.
+2. **Most of this template is deletable, but not all of it.** A typo fix, a broken
+   link or a doc that got clearer keeps **What this changes**, the **No directory
+   data** declaration and **Everything**. The declaration says itself that it is not
+   deletable, and **Everything** carries the box that binds a page added, renamed or
+   removed under `docs/` to the README table, for a documentation-only change as much
+   as for a feature. Every other section opens with its own delete comment, so delete
+   those.
 3. **This platform writes to real directories.** Nothing here should ever have
    been pointed at one. The declaration near the bottom is not a formality.
 
