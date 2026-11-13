@@ -159,6 +159,7 @@ enterprise-onboarding/
 |---|---|
 | [docs/lab.md](docs/lab.md) | The afternoon lab: stand up the stack, onboard a user, roll it back, reset the tenant; every command copy-pasteable, with measured timings |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design, diagrams, provider abstraction, job engine, security model |
+| [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) | The phased build: what shipped in each of the eight phases and how each one was verified, plus the roadmap of anticipated integrations and the attach point each would use |
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Local setup, demo mode, prerequisites |
 | [docs/DEVELOPER-GUIDE.md](docs/DEVELOPER-GUIDE.md) | Code layout, the principles in force, common tasks, naming and commit conventions, how to run the tests |
 | [docs/ADMINISTRATOR-GUIDE.md](docs/ADMINISTRATOR-GUIDE.md) | Using every feature, roles, bulk template reference |
