@@ -75,6 +75,8 @@ provider interface used in production.
 # Backend (Python 3.11+)
 cd backend
 python -m venv .venv
+VPY="$PWD/.venv/bin/python"
+[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
 
 # Call the environment's own interpreter by path: no activation, every platform
 VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
@@ -134,9 +136,9 @@ mailbox.
 
 ```bash
 cd backend
-VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
-
-"$VPY" -m pytest                                       # 42 API/unit/integration tests
+VPY="$PWD/.venv/bin/python"
+[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
+"$VPY" -m pytest                                     # API/unit/integration tests
 powershell -File powershell/tests/Invoke-SmokeTest.ps1 # module contract smoke test
 Invoke-Pester powershell/tests                         # Pester 5 suite
 ```

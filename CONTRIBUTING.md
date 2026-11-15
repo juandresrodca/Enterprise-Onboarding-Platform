@@ -23,6 +23,8 @@ cd Enterprise-Onboarding-Platform
 # Backend
 cd backend
 python -m venv .venv
+VPY="$PWD/.venv/bin/python"
+[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
 
 # The environment's own interpreter, by path — no activation, every platform
 VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
@@ -93,6 +95,9 @@ pull request stalls:
 
 ```bash
 cd backend
+VPY="$PWD/.venv/bin/python"
+[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
+"$VPY" -m pytest -q                                      # API/unit/integration tests
 
 # The environment's own interpreter, by path — no activation, every platform
 VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe

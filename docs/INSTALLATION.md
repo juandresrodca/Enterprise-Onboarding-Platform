@@ -15,15 +15,14 @@
 ## Local setup (demo mode)
 
 ```bash
-git clone <repo> && cd enterprise-onboarding
+git clone https://github.com/juandresrodca/Enterprise-Onboarding-Platform.git
+cd Enterprise-Onboarding-Platform
 
 # 1. Backend
 cd backend
 python -m venv .venv
-
-# The environment's own interpreter, by path — no activation, every platform
-VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
-
+VPY="$PWD/.venv/bin/python"
+[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
 "$VPY" -m pip install -r requirements-dev.txt
 cp .env.example .env                  # optional; demo works with defaults
 "$VPY" -m uvicorn app.main:app --reload --port 8000
@@ -67,9 +66,9 @@ docker compose up --build
 
 ```bash
 cd backend
-VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
-
-"$VPY" -m pytest                                            # 42 tests green
+VPY="$PWD/.venv/bin/python"
+[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
+"$VPY" -m pytest                                          # API/unit/integration tests
 curl http://localhost:8000/api/health                       # {"status":"ok",...}
 powershell -File powershell/tests/Invoke-SmokeTest.ps1      # module contract
 ```
