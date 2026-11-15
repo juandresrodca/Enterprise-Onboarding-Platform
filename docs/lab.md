@@ -40,7 +40,8 @@ is open for. Chapter 2 explains how to help with it, if you have a lab of your o
 | 5 | [Clean up](#5-clean-up) | 2 min | — |
 
 Machine times were measured once, on Windows 11 with Python 3.11.1, Node 22.16
-and a home broadband connection, from a fresh clone on 1 October 2026. Your
+and a home broadband connection, from a fresh clone on 1 October 2026, before
+the Astro 7 upgrade raised the minimum Node to 22.23.4. Your
 installs will be faster or slower; the shape will not change. The estimates for
 *your* time assume you read each plan rather than skim it — reading the plan is
 the point. Allow 60–90 minutes in total, which is where *an afternoon* comes from.
@@ -58,7 +59,7 @@ Stated once, here, and assumed by every chapter after it:
 | You need | Check with | Notes |
 |---|---|---|
 | Python **3.11 or later** | see below | older versions are not supported |
-| Node **20 or later** | `node --version` | |
+| Node **22.23.4 or later** | `node --version` | Astro 7 refuses to start on anything older |
 | git and curl | `git --version`, `curl --version` | |
 | A bash shell | — | Git Bash on Windows; the default shell on Linux and macOS |
 | Ports 8000 and 4321 free | — | backend and frontend respectively |

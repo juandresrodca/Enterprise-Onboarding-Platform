@@ -5,7 +5,7 @@
 | Component | Demo mode | Production |
 |---|---|---|
 | Python | 3.11+ | 3.11+ |
-| Node.js | 20+ | 20+ (build only) |
+| Node.js | 22.23.4+ | 22.23.4+ (build only) |
 | PowerShell | not needed | 7.x (`pwsh`) on a domain-joined Windows host |
 | RSAT ActiveDirectory module | not needed | required |
 | Microsoft.Graph modules | not needed | `Microsoft.Graph.Authentication`, `.Users`, `.Groups`, `.Identity.DirectoryManagement` |

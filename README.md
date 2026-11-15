@@ -15,6 +15,16 @@ that layer passes its contract tests but has not yet been run against a real
 domain controller
 ([#3](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/3)).
 
+## The main flow
+
+![One onboarding in the demo: fill in a new hire, validate, read the plan, approve, watch the job run, then find it in the audit log](docs/assets/onboarding-demo.gif)
+
+One onboarding from form to audit trail, recorded in demo mode against the
+fictional Northwind tenant. Clone, bulk import and offboarding go through the
+same validate, preview and approve steps.
+
+## Architecture
+
 ```
 Astro + Tailwind + TypeScript          FastAPI (async, Pydantic)        PowerShell 7+
 ┌────────────────────────┐   REST    ┌──────────────────────────┐   JSON   ┌──────────────────────┐
@@ -75,16 +85,15 @@ provider interface used in production.
 # Backend (Python 3.11+)
 cd backend
 python -m venv .venv
-VPY="$PWD/.venv/bin/python"
-[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
 
 # Call the environment's own interpreter by path: no activation, every platform
-VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
+VPY="$PWD/.venv/bin/python"
+[ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
 
 "$VPY" -m pip install -r requirements-dev.txt
 "$VPY" -m uvicorn app.main:app --port 8000
 
-# Frontend (Node 20+), second terminal
+# Frontend (Node 22.23.4+), second terminal
 cd frontend
 npm install
 npm run dev                                           # http://localhost:4321
@@ -147,7 +156,7 @@ Invoke-Pester powershell/tests                         # Pester 5 suite
 
 ```
 enterprise-onboarding/
-├── frontend/        Astro 5 + Tailwind 4 + TypeScript SPA-style pages
+├── frontend/        Astro 7 + Tailwind 4 + TypeScript SPA-style pages
 ├── backend/         FastAPI app (api/ services/ models/ core/) + pytest suite
 ├── powershell/      OnboardingCommon module + production scripts + tests
 ├── docker/          Dockerfiles + nginx config; docker-compose.yml at root

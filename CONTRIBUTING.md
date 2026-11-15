@@ -13,7 +13,7 @@ demo, break something, and [tell us how](https://github.com/juandresrodca/Enterp
 
 ## Get it running (demo mode, no AD required)
 
-You need **Python 3.11+** and **Node 20+**. Nothing else — no domain controller, no
+You need **Python 3.11+** and **Node 22.23.4+**. Nothing else — no domain controller, no
 tenant, no Docker.
 
 ```bash
@@ -23,11 +23,10 @@ cd Enterprise-Onboarding-Platform
 # Backend
 cd backend
 python -m venv .venv
+
+# The environment's own interpreter, by path: no activation, every platform
 VPY="$PWD/.venv/bin/python"
 [ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
-
-# The environment's own interpreter, by path — no activation, every platform
-VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
 
 "$VPY" -m pip install -r requirements-dev.txt
 "$VPY" -m uvicorn app.main:app --port 8000
@@ -95,14 +94,12 @@ pull request stalls:
 
 ```bash
 cd backend
+
+# The environment's own interpreter, by path: no activation, every platform
 VPY="$PWD/.venv/bin/python"
 [ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
+
 "$VPY" -m pytest -q                                      # API/unit/integration tests
-
-# The environment's own interpreter, by path — no activation, every platform
-VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
-
-"$VPY" -m pytest -q                                      # 42 API/unit/integration tests
 powershell -File powershell/tests/Invoke-SmokeTest.ps1   # module contract, no Pester needed
 Invoke-Pester powershell/tests                           # Pester 5 suite
 ```

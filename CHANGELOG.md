@@ -16,6 +16,9 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 
+- A README section, *The main flow*, with an 18-second GIF of one onboarding
+  recorded in demo mode: form, validation, plan, approval, live job and audit
+  log (`docs/assets/onboarding-demo.gif`, 223 KB).
 - `.github/dependabot.yml`: dependency updates are now watched by the repository
   rather than noticed by hand. Four ecosystems, which is every one this tree has:
   `pip` at `/backend` for `requirements.txt` and `requirements-dev.txt`, `npm` at
@@ -93,6 +96,15 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Fixed
 
+- The setup guides said Node 20 or later. Since the Astro 7 upgrade the frontend
+  needs Node 22.23.4 or later and exits on anything older, so `README.md`,
+  `CONTRIBUTING.md`, `docs/INSTALLATION.md` and `docs/lab.md` now say that.
+- The merge of
+  [#15](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/pull/15)
+  kept both sides of three conflicts: the README quickstart and both
+  `CONTRIBUTING.md` blocks set `VPY` twice and ran `pytest` twice, and the
+  changelog entry landed after the link definitions at the end of the file.
+  Each block now sets it once.
 - The setup instructions no longer tell you to activate the backend's virtual
   environment with a line that does not activate it. `README.md`, `CONTRIBUTING.md`
   and `docs/INSTALLATION.md` all carried `.venv/Scripts/activate` as a bare command:
@@ -104,6 +116,10 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   identical line on every platform; the proper per-shell activations are given
   alongside it for anyone who prefers an activated shell
   ([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).
+  The absolute-path form of that line, the real clone URL in `docs/INSTALLATION.md`
+  and the shorter note in `docs/lab.md` were contributed by
+  [@nawaaaaaAaar](https://github.com/nawaaaaaAaar) in
+  [#15](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/pull/15).
 - The two blocks that run the test suites call the environment's interpreter too.
   `CONTRIBUTING.md`'s *Tests* section and `docs/DEVELOPER-GUIDE.md`'s *Testing* section
   were not part of the #14 rewrite and still ran a bare `python -m pytest`, so following
@@ -209,7 +225,3 @@ Initial release: the full onboarding platform.
 [Unreleased]: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/compare/bf73e6d...HEAD
 [0.2.0]: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/compare/e45386d...bf73e6d
 [0.1.0]: https://github.com/juandresrodca/Enterprise-Onboarding-Platform/commits/0877c7c
-- Setup and test instructions now call the virtual environment's interpreter
-  directly in Git Bash and POSIX shells, rather than executing an activation
-  script in a child process or assuming Windows-only paths
-  ([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).
