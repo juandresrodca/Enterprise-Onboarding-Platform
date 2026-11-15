@@ -1,0 +1,43 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: "/backend"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels: ["dependencies"]
+    groups:
+      # One pull request for the routine bumps keeps the queue readable: review time
+      # here is better spent on the onboarding and rollback paths than on four
+      # separate FastAPI patch bumps. Covers requirements.txt and requirements-dev.txt.
+      all-pip:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: npm
+    directory: "/frontend"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels: ["dependencies"]
+    groups:
+      # Same reasoning as the backend, and it matters more here: deploy-pages.yml
+      # publishes this tree to the live demo, so a grouped minor/patch bump is one
+      # review of what ships rather than a trickle.
+      all-npm:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: docker
+    directory: "/docker"
+    schedule:
+      interval: monthly
+    labels: ["dependencies"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    labels: ["dependencies"]

@@ -16,6 +16,38 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 
+- `.github/dependabot.yml`: dependency updates are now watched by the repository
+  rather than noticed by hand. Four ecosystems, which is every one this tree has:
+  `pip` at `/backend` for `requirements.txt` and `requirements-dev.txt`, `npm` at
+  `/frontend`, `docker` at `/docker` for the two Dockerfiles that pin
+  `python:3.12-slim`, `node:22-alpine` and `nginx:1.27-alpine`, and
+  `github-actions` at `/` for *Deploy Pages* and *Commit attribution*. The two
+  application ecosystems run weekly with their minor and patch bumps grouped into
+  one pull request; images and actions run monthly, following `AdminForge`. The
+  frontend half is the one that reaches a user: `deploy-pages.yml` publishes that
+  tree to the hosted demo, so an unreviewed transitive bump ships. There is no
+  `docker` entry at the root because `docker-compose.yml` only builds the two
+  Dockerfiles and pins no image of its own, so a second entry would watch nothing.
+
+- `.github/pull_request_template.md`: a pull request template derived from this
+  repository's own rules rather than from a generic one. It follows the order a
+  submission is read in — what changed and which layer, what you ran with the
+  output pasted, what you clicked through in demo mode, the write-path questions
+  from `docs/DEVELOPER-GUIDE.md` — and makes the "no directory data" rule an
+  explicit tick that covers screenshots and log excerpts as well as code, with
+  `SECURITY.md`'s private route for anything that has already leaked. It states at
+  the top that the only check running on a pull request is *Commit attribution*,
+  which reads commit messages and not code, so no tick here means a machine
+  verified anything. Linked from `CONTRIBUTING.md`. This was the last flagship
+  repository in this account without a template.
+
+- `CODE_OF_CONDUCT.md`: the Contributor Covenant 2.1, with the enforcement
+  address and the enforcement ladder, matching the other repositories in this
+  account. It draws the line explicitly between a conduct report and directory
+  data that reaches the repository by accident — the latter goes through
+  `SECURITY.md`, privately, and is removed. Linked from `CONTRIBUTING.md` and
+  the README documentation table. This was the last unmet item on GitHub's
+  community-standards checklist for the repository.
 - A check that rejects AI-assistant attribution in commit messages: a
   `commit-msg` hook in `.githooks/` (enable with
   `git config core.hooksPath .githooks`) and a *Commit attribution* workflow that
@@ -26,6 +58,13 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   copy-pasteable, the expected output for each step, and timings measured from a
   fresh clone. It completes in demo mode with no directory at all, and states its
   non-goal: it is not a production deployment guide.
+- `.gitattributes`: line endings are now normalised by the repository rather than by
+  whatever each clone has in `core.autocrlf`. Everything is stored LF; `.ps1`,
+  `.psm1` and `.psd1` are checked out CRLF for the Windows host that runs them, and
+  the shell scripts — `.githooks/commit-msg` and
+  `.github/scripts/check-attribution.sh`, both of which run under `bash` — are
+  pinned LF so a CRLF copy can never silence the attribution guard rail
+  ([#12](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/12)).
 - Issue templates under `.github/ISSUE_TEMPLATE/`, including one shaped for
   "the lab broke at step N", plus links that route security reports and the
   hosted-demo login bounce away from public issues.
@@ -53,6 +92,31 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   not exist; it now links chapter 4 of the lab, which is that dry run.
 
 ### Fixed
+
+- The setup instructions no longer tell you to activate the backend's virtual
+  environment with a line that does not activate it. `README.md`, `CONTRIBUTING.md`
+  and `docs/INSTALLATION.md` all carried `.venv/Scripts/activate` as a bare command:
+  without `source` it runs in a child process, so `VIRTUAL_ENV` and `PATH` are
+  restored the moment it exits and the following `pip install` installs into
+  whichever `python` is first on `PATH` — the system 3.9 rather than the 3.11 the
+  backend needs, with nothing to say so. All three now call the environment's own
+  interpreter by path, the convention `docs/lab.md` already used, which is one
+  identical line on every platform; the proper per-shell activations are given
+  alongside it for anyone who prefers an activated shell
+  ([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).
+- The two blocks that run the test suites call the environment's interpreter too.
+  `CONTRIBUTING.md`'s *Tests* section and `docs/DEVELOPER-GUIDE.md`'s *Testing* section
+  were not part of the #14 rewrite and still ran a bare `python -m pytest`, so following
+  `CONTRIBUTING.md` top to bottom installed `pytest` into `.venv` and then tested against
+  whichever interpreter was first on `PATH`, failing with `No module named pytest`. Both
+  now carry the same `VPY` line as the setup blocks, repeated rather than set once because
+  a *Tests* section is a place people open a fresh terminal for
+  ([#16](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/16)).
+- `docs/INSTALLATION.md` said the backend suite is 34 tests; it is 42, as
+  `README.md` and `CONTRIBUTING.md` already said.
+- `docs/INSTALLATION.md`'s demo-setup block used `copy .env.example .env`, which is
+  `cmd.exe` syntax and fails with `copy: command not found` in the same bash shell
+  the rest of the block is written for. It is now `cp`.
 
 - A fresh clone's frontend no longer fails `npm run dev` with
   `Cannot find native binding`: `frontend/package-lock.json` is regenerated with

@@ -37,6 +37,18 @@ Open **http://localhost:4321** and sign in with a demo account
 (`gadmin` / `Demo!Pass123`). The Astro dev server proxies `/api` to
 `127.0.0.1:8000`, so cookies remain same-origin.
 
+> [!NOTE]
+> The `VPY` line replaces activating the environment. `.venv/Scripts/activate` run
+> as a command — which is what this guide used to say — executes in a child process
+> and its environment changes are gone the moment it exits, so the `pip install`
+> that follows installs into whichever `python` is first on `PATH`
+> ([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).
+> On a host whose default Python is 3.9 the dependencies land in the system
+> interpreter and nothing points at the cause. Calling the interpreter by path is
+> one line on every platform. To activate properly instead, use
+> `source .venv/bin/activate` on Linux or macOS, or `.venv\Scripts\Activate.ps1`
+> in PowerShell.
+
 ### Resetting the demo tenant
 
 Demo directory state persists to `backend/data/demo_state.json`. Delete that

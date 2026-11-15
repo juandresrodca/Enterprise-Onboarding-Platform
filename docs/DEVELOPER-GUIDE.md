@@ -74,14 +74,31 @@ suite runs against any provider that honors the interface semantics.
   `.card`, `.input`, `.badge-*`); single accent palette; dark mode via
   `.dark` class; `prefers-reduced-motion` kill-switch; only
   transform/opacity are animated.
+- Whitespace: [`.editorconfig`](../.editorconfig) at the repository root —
+  four spaces for Python, PowerShell and the `.conf` files, two for Astro,
+  TypeScript, JSON, YAML and shell. Note that PowerShell is checked out CRLF
+  there and in [`.gitattributes`](../.gitattributes); the two have to agree or
+  every save produces a diff.
 
 ## Testing
 
 ```bash
-cd backend && python -m pytest -q     # auth/CSRF/lockout, RBAC, validation,
+cd backend
+
+# The environment's own interpreter, by path — no activation, every platform
+VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
+
+"$VPY" -m pytest -q                   # auth/CSRF/lockout, RBAC, validation,
                                       # e2e create/clone/bulk, exports, units
 Invoke-Pester powershell/tests        # module contract
 ```
+
+The `VPY` line is repeated in every block that runs the suite, rather than set once at
+the top of the guide, because each one has to stand alone in a fresh terminal — see
+`CONTRIBUTING.md` and
+[#16](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/16).
+`docs/lab.md` sets `$PY` once and means the *host* interpreter; the two are not
+interchangeable.
 
 Tests run entirely in demo mode with isolated temp storage per test
 (`tests/conftest.py`). When you touch the provider interface, run the flow

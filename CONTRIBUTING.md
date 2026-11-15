@@ -25,6 +25,10 @@ cd backend
 python -m venv .venv
 VPY="$PWD/.venv/bin/python"
 [ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
+
+# The environment's own interpreter, by path — no activation, every platform
+VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
+
 "$VPY" -m pip install -r requirements-dev.txt
 "$VPY" -m uvicorn app.main:app --port 8000
 
@@ -37,6 +41,14 @@ npm run dev                     # http://localhost:4321
 Sign in as `gadmin` and you are looking at **Northwind Dynamics**: 23 users, 19 groups,
 5 licence SKUs, an OU tree and shared mailboxes, all served by `MockProvider`. Every
 feature works against it — create, clone, bulk import, offboard, jobs, audit, exports.
+
+Activating the environment instead would need a different line per shell, and the
+one these docs used to carry — `.venv/Scripts/activate`, without `source` — did
+nothing at all: it ran in a child process whose environment died with it
+([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).
+Calling the interpreter by path is the same command everywhere. If you would rather
+work in an activated shell, `source .venv/bin/activate` on Linux or macOS and
+`.venv\Scripts\Activate.ps1` in PowerShell both do it properly.
 
 `backend/.env.example` lists the settings; you do not need to copy it for demo mode.
 [`docs/INSTALLATION.md`](docs/INSTALLATION.md) has the longer version, including Docker.
@@ -86,9 +98,22 @@ cd backend
 VPY="$PWD/.venv/bin/python"
 [ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
 "$VPY" -m pytest -q                                      # API/unit/integration tests
+
+# The environment's own interpreter, by path — no activation, every platform
+VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
+
+"$VPY" -m pytest -q                                      # 42 API/unit/integration tests
 powershell -File powershell/tests/Invoke-SmokeTest.ps1   # module contract, no Pester needed
 Invoke-Pester powershell/tests                           # Pester 5 suite
 ```
+
+The `VPY` line is repeated from the setup block on purpose. This is a section people
+jump straight to in a fresh terminal, and a bare `python` there would run the suite
+against whichever interpreter is first on `PATH` rather than the one the setup block
+installed `pytest` into — the same mismatch as
+[#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14), with
+`No module named pytest` as the symptom
+([#16](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/16)).
 
 The pytest suite runs entirely in demo mode with isolated temporary storage per test
 (`backend/tests/conftest.py` points `EIO_DATA_DIR` and `EIO_LOGS_DIR` at `tmp_path`), so
@@ -100,10 +125,20 @@ typed error codes, structured logging and AD serialisation. They do not need AD 
 
 Two honest gaps, in case you were looking for something to do:
 
-- **There is no CI.** Both suites exist and neither runs automatically — that is
-  [#2](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/2).
-- **The frontend has no tests.** `npm run build` is the only gate, and it catches
-  TypeScript errors rather than behaviour.
+- **Nothing runs the tests.** Two workflows do run on a pull request and neither is a
+  test gate. *Commit attribution*
+  ([`.github/workflows/commit-attribution.yml`](.github/workflows/commit-attribution.yml))
+  fires on every push and every pull request, calls
+  [`.github/scripts/check-attribution.sh`](.github/scripts/check-attribution.sh) over
+  every commit reachable from the ref, and fails on AI-assistant trailers — it reads
+  commit messages and never looks at the code. *Deploy frontend to GitHub Pages*
+  ([`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)) fires only
+  on pushes to `main` that touch `frontend/**`, and is a deployment rather than a gate.
+  Nothing executes `pytest`, `Invoke-Pester` or `npm run build` — that is
+  [#2](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/2), and it
+  is why a green tick here means a person ran something and said so.
+- **The frontend has no tests.** `npm run build`, run by hand, is the only check there
+  is, and it catches TypeScript errors rather than behaviour.
 
 ### What is deliberately not tested here
 
@@ -125,6 +160,25 @@ Branch from `main`, keep the branch to one concern, and in the description say:
 3. **Whether it touches a write path.** If the answer is yes, say which job, which audit
    entry it produces, and which permission gates it.
 
+A page added, renamed or removed under `docs/` also needs a row in the **Documentation**
+table in [`README.md`](README.md#documentation), with a *Contents* cell saying what the
+page is for. That table is the only index of `docs/`, so a page missing from it is a page
+nobody finds, and a renamed or deleted page leaves the table pointing at something that
+is no longer there. It applies to a documentation-only change as much as to a feature
+that ships a page.
+
+GitHub fills the description from
+[`.github/pull_request_template.md`](.github/pull_request_template.md), which asks for
+those three in that order and adds the directory-data declaration from
+[below](#never-put-directory-data-in-this-repository). Most of it is deletable, but not
+all of it: a documentation-only change keeps **What this changes**, the **No directory
+data** declaration and **Everything**. The declaration says itself that it is not
+deletable, and **Everything** carries the box that binds a page added, renamed or
+removed under `docs/` to the README table, for a documentation-only change as much as
+for a feature. Every other section opens with its own delete comment. It is a checklist
+for a person, not for a machine: the only workflow that runs on a pull request here is
+*Commit attribution*, and it reads commit messages rather than code.
+
 Commits use [Conventional Commits](https://www.conventionalcommits.org/) —
 `feat:`, `fix:`, `docs:`, `ci:`, `refactor:`, `test:`, `chore:` — because
 [`CHANGELOG.md`](CHANGELOG.md) is assembled from them.
@@ -142,6 +196,13 @@ git config core.hooksPath .githooks
 
 The same check runs on every push and pull request in the *Commit attribution*
 workflow, so a commit that slips past the hook will fail there.
+
+You do not need to set `core.autocrlf`:
+[`.gitattributes`](.gitattributes) decides what git stores, whatever your editor
+writes. Everything is stored LF; `.ps1`, `.psm1` and `.psd1` are checked out CRLF
+because they are run from a Windows host, and the shell scripts — including the
+hook above — stay LF because they run under `bash`. If a diff ever shows every
+file as changed with nothing actually changed, that file is what prevents it.
 
 Add an entry to the `[Unreleased]` section of `CHANGELOG.md` for anything a user or
 operator would notice. Internal refactors do not need one.
@@ -172,7 +233,12 @@ before this platform touches a real directory.
 Be straightforward and be kind. Assume the person on the other side of the review is
 trying to make the same thing work as you are. Harassment of any kind, or any behaviour
 that would make a colleague uncomfortable in a professional setting, is not welcome.
-Report a problem to **juandresrodca@gmail.com**.
+
+Participation is governed by the [Code of Conduct](CODE_OF_CONDUCT.md), which is the
+Contributor Covenant 2.1 and sets out what is reported, to whom, and what follows.
+Report a problem to **juandresrodca@gmail.com**. Directory data that lands in the
+repository by accident is a [`SECURITY.md`](SECURITY.md) matter rather than a conduct
+one — report it privately and it is removed.
 
 ## Licence
 

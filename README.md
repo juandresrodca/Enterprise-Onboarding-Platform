@@ -3,12 +3,12 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **Stand up an end-to-end Active Directory / Entra ID onboarding pipeline in an
-afternoon — validate, preview, provision, audit and roll back a new hire —
+afternoon (validate, preview, provision, audit and roll back a new hire)
 against a fictional tenant, with no directory required.**
 → [Start the lab](docs/lab.md)
 
 A web platform for onboarding one or many users into **Active Directory /
-Microsoft Entra ID** environments (hybrid, Exchange Online, Microsoft 365) —
+Microsoft Entra ID** environments (hybrid, Exchange Online, Microsoft 365),
 with validation, preview/approval, live execution progress and a full audit
 trail. Its production provider drives PowerShell 7 against real directories;
 that layer passes its contract tests but has not yet been run against a real
@@ -30,26 +30,26 @@ Astro + Tailwind + TypeScript          FastAPI (async, Pydantic)        PowerShe
 
 ## Feature highlights
 
-- **Create 1–50 users** with dynamically  generated  forms covering the full
+- **Create 1–50 users** with dynamically generated forms covering the full
   attribute set (identity, organization, contact, address, groups, licenses,
   mailboxes, password policy, home folder, roaming profile, logon script)
-- **Copy existing user (clone)** — pick a template employee and copy OU,
+- **Copy existing user (clone)**: pick a template employee and copy OU,
   organization, manager, address, groups(security/distribution/M365),
-  licenses, shared mailboxes, proxy-address patterns, extension  attributes,
+  licenses, shared mailboxes, proxy-address patterns, extension attributes,
   home folder and logon script. Identity attributes (SID, GUID, password,
-  username, email, employee ID, display  name, personal data) are **never**
+  username, email, employee ID, display name, personal data) are **never**
   copied; the administrator chooses which families to copy.
-- **Offboard users** — disable one or many departing employees: revoke
-  licenses, remove group memberships (distribution  lists optionally kept for
+- **Offboard users**: disable one or many departing employees: revoke
+  licenses, remove group memberships (distribution lists optionally kept for
   handover continuity), convert the mailbox to shared with optional manager
-  access grant, randomize the password, and optionally  relocate to a
-  disabled-users OU. Same preview-and-approve gate  and live progress as
+  access grant, randomize the password, and optionally relocate to a
+  disabled-users OU. Same preview-and-approve gate and live progress as
   onboarding.
 - **Bulk import** from CSV, Excel (.xlsx) or JSON with automatic header
   mapping for common HR-system exports.
 - **Validation engine**: duplicate usernames/UPNs/emails (batch + directory),
   invalid OU/manager/group, license availability, password policy, naming
-  convention, required fields — with automatic `first.last` identity
+  convention, required fields, with automatic `first.last` identity
   derivation and collision suffixes.
 - **Preview & approve**: a faithful execution plan of every action, per user.
   Nothing runs without explicit approval.
@@ -62,10 +62,10 @@ Astro + Tailwind + TypeScript          FastAPI (async, Pydantic)        PowerShe
   accounts, 4-tier RBAC (Helpdesk / HR / Administrator / Global Admin),
   httpOnly JWT session cookies with timeout, CSRF double-submit protection,
   login lockout, PBKDF2 password hashing, secrets via environment/stdin only.
-  The shipped defaults are demo defaults — [SECURITY.md](SECURITY.md) lists the
+  The shipped defaults are demo defaults. [SECURITY.md](SECURITY.md) lists the
   four to change before this touches a real directory.
 
-## Quickstart (demo mode — no AD required)
+## Quickstart (demo mode, no AD required)
 
 The demo ships a seeded fantasy tenant (**Northwind Dynamics**: 23 users,
 19 groups, 5 license SKUs, OU tree, shared mailboxes) behind the same
@@ -77,6 +77,10 @@ cd backend
 python -m venv .venv
 VPY="$PWD/.venv/bin/python"
 [ -x "$PWD/.venv/Scripts/python.exe" ] && VPY="$PWD/.venv/Scripts/python.exe"
+
+# Call the environment's own interpreter by path: no activation, every platform
+VPY=.venv/bin/python; [ -x .venv/Scripts/python.exe ] && VPY=.venv/Scripts/python.exe
+
 "$VPY" -m pip install -r requirements-dev.txt
 "$VPY" -m uvicorn app.main:app --port 8000
 
@@ -85,11 +89,24 @@ cd frontend
 npm install
 npm run dev                                           # http://localhost:4321
 ```
+
+> [!NOTE]
+> **Why the `VPY` line instead of `activate`?** Run as a command rather than with
+> `source`, the activate script executes in a child process and its environment
+> changes vanish when that process exits, so the next `pip install` goes to
+> whichever `python` is first on `PATH`, which on a machine defaulting to 3.9 is
+> the wrong one, silently
+> ([#14](https://github.com/juandresrodca/Enterprise-Onboarding-Platform/issues/14)).
+> Calling the interpreter by path cannot go wrong that way and needs no per-shell
+> variant. In PowerShell, activate with `.venv\Scripts\Activate.ps1` if you prefer
+> an activated shell; `.venv\Scripts\python.exe -m pip …` works there too.
+> [`docs/lab.md`](docs/lab.md) uses the same convention throughout.
+
 > [!IMPORTANT]
 > **If the live demo sends you back to the login screen**, the browser dropped the
 > session cookie: the Pages frontend and the Render API are on different origins,
 > so it is a third-party cookie. It fails in Chrome Incognito, in Safari, and
-> wherever third-party cookies are switched off — a normal Chrome, Edge or Firefox
+> wherever third-party cookies are switched off. A normal Chrome, Edge or Firefox
 > window works, as does `docker compose up` locally. Full explanation, the
 > per-browser matrix and the three possible fixes:
 > [docs/demo-login.md](docs/demo-login.md). The proper fix is open as
@@ -142,9 +159,11 @@ enterprise-onboarding/
 
 | Document | Contents |
 |---|---|
-| [docs/lab.md](docs/lab.md) | The afternoon lab: stand up the stack, onboard a user, roll it back, reset the tenant — every command copy-pasteable, with measured timings |
+| [docs/lab.md](docs/lab.md) | The afternoon lab: stand up the stack, onboard a user, roll it back, reset the tenant; every command copy-pasteable, with measured timings |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design, diagrams, provider abstraction, job engine, security model |
+| [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) | The phased build: what shipped in each of the eight phases and how each one was verified, plus the roadmap of anticipated integrations and the attach point each would use |
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Local setup, demo mode, prerequisites |
+| [docs/DEVELOPER-GUIDE.md](docs/DEVELOPER-GUIDE.md) | Code layout, the principles in force, common tasks, naming and commit conventions, how to run the tests |
 | [docs/ADMINISTRATOR-GUIDE.md](docs/ADMINISTRATOR-GUIDE.md) | Using every feature, roles, bulk template reference |
 | [docs/API.md](docs/API.md) | REST endpoints, permissions, payloads |
 | [docs/api-pagination.md](docs/api-pagination.md) | Why `GET /api/users` cannot copy the audit-log pagination, and the cursor contract proposed instead |
@@ -154,6 +173,7 @@ enterprise-onboarding/
 | [SECURITY.md](SECURITY.md) | Reporting a vulnerability, which demo defaults to change before production, least-privilege service accounts |
 | [CHANGELOG.md](CHANGELOG.md) | What changed in each release, and the open issues shaping the next one |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Demo-mode setup, which issues are good entry points, what a pull request should show, and the rule about never committing directory data |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Contributor Covenant 2.1: the standards participation is held to, how to report a problem, and what follows a report |
 
 ## License
 
@@ -161,7 +181,7 @@ enterprise-onboarding/
 
 You may run, modify and deploy this platform inside your own organisation,
 including commercially, provided the copyright notice and licence text travel
-with it. It is provided as is and with no warranty — read the licence before
+with it. It is provided as is and with no warranty. Read the licence before
 you point it at a production directory.
 
 ### Data note
